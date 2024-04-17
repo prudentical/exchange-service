@@ -1,0 +1,27 @@
+app:
+  env: dev
+  pagination:
+    max_size: 50
+server:
+  port: 8001
+database:
+  name: "db"
+  host: "127.0.0.1"
+  port: 5432
+  ssl: "disable"
+  user: "user"
+  password: "password"
+  timezone: "Asia/Shanghai"
+  connection:
+    idle: 10
+    open: 100
+messaging:
+  protocol: "amqp"
+  host: "127.0.0.1"
+  port: 5672
+  user: "guest"
+  password: "guest"
+  queue:
+    name: "orders"
+logging:
+  level: "debug"
