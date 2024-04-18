@@ -51,8 +51,12 @@ type Config struct {
 		Port     int
 		User     string
 		Password string
-		Queue    struct {
-			Name string
+		Order    struct {
+			Exchange struct {
+				Name string
+				Type string
+			}
+			Queue string
 		}
 	}
 	Logging struct {

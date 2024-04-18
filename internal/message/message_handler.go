@@ -6,21 +6,25 @@ import (
 	"log/slog"
 )
 
-type MessageService interface {
+type MessageHandler interface {
 	SendMessage(payload interface{}) error
 }
 
 type RabbitMQService struct {
-	logger *slog.Logger
-	client MessageQueueClient
-	queue  string
+	logger       *slog.Logger
+	client       MessageQueueClient
+	exchangeName string
+	exchangeType string
+	queue        string
 }
 
-func NewMessageService(logger *slog.Logger, client MessageQueueClient, config configuration.Config) MessageService {
+func NewMessageHandler(logger *slog.Logger, client MessageQueueClient, config configuration.Config) MessageHandler {
 	return &RabbitMQService{
-		logger: logger,
-		client: client,
-		queue:  config.Messaging.Queue.Name,
+		logger:       logger,
+		client:       client,
+		exchangeName: config.Messaging.Order.Exchange.Name,
+		exchangeType: config.Messaging.Order.Exchange.Type,
+		queue:        config.Messaging.Order.Queue,
 	}
 }
 
@@ -29,7 +33,7 @@ func (s *RabbitMQService) SendMessage(payload interface{}) error {
 	if err != nil {
 		return err
 	}
-	err = s.client.Send(s.queue, str)
+	err = s.client.Send(s.exchangeName, s.exchangeType, s.queue, str)
 	if err != nil {
 		return err
 	}

@@ -11,7 +11,7 @@ import (
 )
 
 type MessageQueueClient interface {
-	Send(queue string, payload []byte) error
+	Send(exchangeName string, exchangeType string, queue string, payload []byte) error
 	Done()
 	Shutdown() error
 }
@@ -32,21 +32,24 @@ func NewMessageQueueClient(config configuration.Config, logger *slog.Logger) (Me
 		config.Messaging.Host,
 		config.Messaging.Port,
 	)
+
 	logger.Debug("Obtaining AMQP connection")
 	conn, err := amqp.Dial(url)
 	if err != nil {
 		return &RabbitMQClient{}, err
 	}
+
 	logger.Debug("Opening AMQP channel")
 	ch, err := conn.Channel()
 	if err != nil {
 		return &RabbitMQClient{}, err
 	}
+
 	return &RabbitMQClient{logger: logger, connection: conn, channel: ch}, nil
 }
 
-func (c *RabbitMQClient) Send(queue string, payload []byte) error {
-	err := c.setup(queue)
+func (c *RabbitMQClient) Send(exchangeName string, exchangeType string, queue string, payload []byte) error {
+	err := c.setup(exchangeName, exchangeName, queue)
 
 	if err != nil {
 		return err
@@ -56,10 +59,10 @@ func (c *RabbitMQClient) Send(queue string, payload []byte) error {
 	defer cancel()
 
 	err = c.channel.PublishWithContext(ctx,
-		"",    // exchange
-		queue, // routing key
-		false, // mandatory
-		false, // immediate
+		exchangeName, // exchange
+		queue,        // routing key
+		false,        // mandatory
+		false,        // immediate
 		amqp.Publishing{
 			ContentType: "application/json",
 			Body:        payload,
@@ -79,7 +82,7 @@ func (c *RabbitMQClient) Shutdown() error {
 
 	defer c.logger.Info("RabbitMQ client successfully shutdown")
 
-	// wait for service users to exit
+	// wait for client users to exit
 	return <-c.done
 }
 
@@ -87,21 +90,22 @@ func (c *RabbitMQClient) Done() {
 	c.done <- nil
 }
 
-func (c *RabbitMQClient) setup(name string) error {
+func (c *RabbitMQClient) setup(exchangeName string, exchangeType string, queue string) error {
 	err := c.channel.ExchangeDeclare(
-		"order-exchange", // name of the exchange
-		"direct",         // type
-		true,             // durable
-		false,            // delete when complete
-		false,            // internal
-		false,            // noWait
-		nil,              // arguments
+		exchangeName, // name of the exchange
+		exchangeType, // type
+		true,         // durable
+		false,        // delete when complete
+		false,        // internal
+		false,        // noWait
+		nil,          // arguments
 	)
 	if err != nil {
 		return err
 	}
-	c.channel.QueueDeclare(
-		name,  // name of the queue
+
+	_, err = c.channel.QueueDeclare(
+		queue, // name of the queue
 		true,  // durable
 		false, // delete when unused
 		false, // exclusive
@@ -111,12 +115,13 @@ func (c *RabbitMQClient) setup(name string) error {
 	if err != nil {
 		return err
 	}
-	c.channel.QueueBind(
-		name,             // name of the queue
-		name,             // bindingKey
-		"order-exchange", // sourceExchange
-		false,            // noWait
-		nil,              // arguments
+
+	err = c.channel.QueueBind(
+		queue,        // name of the queue
+		queue,        // bindingKey
+		exchangeName, // sourceExchange
+		false,        // noWait
+		nil,          // arguments
 	)
 	return err
 }

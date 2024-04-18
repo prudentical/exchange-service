@@ -11,7 +11,7 @@ database:
   ssl: "disable"
   user: "user"
   password: "password"
-  timezone: "Asia/Shanghai"
+  timezone: "Asia/Tehran"
   connection:
     idle: 10
     open: 100
@@ -21,7 +21,10 @@ messaging:
   port: 5672
   user: "guest"
   password: "guest"
-  queue:
-    name: "orders"
+  order:
+    exchange:
+      name: "order-exchange"
+      type: "direct"
+    queue: "orders"
 logging:
   level: "debug"
