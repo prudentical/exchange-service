@@ -40,7 +40,6 @@ func main() {
 		fx.Provide(exchange.NewExchangeOrderService),
 		fx.Provide(exchange.NewExchangeService),
 		fx.Provide(exchange.NewExchangeSetupService),
-		asHandler(api.NewHelloHandler),
 		asHandler(api.NewExchangeHandler),
 		asHandler(api.NewPairHandler),
 		asHandler(api.NewCurrencyHandler),
