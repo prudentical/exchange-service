@@ -1,4 +1,4 @@
-package api
+package util
 
 import "github.com/go-playground/validator/v10"
 
@@ -19,4 +19,12 @@ func (v *PlaygroundValidator) Validate(i interface{}) error {
 		return ValidationError{err.Error()}
 	}
 	return nil
+}
+
+type ValidationError struct {
+	msg string
+}
+
+func (v ValidationError) Error() string {
+	return v.msg
 }

@@ -14,6 +14,7 @@ import (
 	"exchange-service/internal/service"
 	"exchange-service/internal/service/currency"
 	"exchange-service/internal/service/exchange"
+	"exchange-service/internal/util"
 )
 
 func main() {
@@ -23,7 +24,7 @@ func main() {
 		fx.Provide(app.NewFxLogger),
 		fx.Provide(app.ProvideEcho),
 		fx.Provide(app.NewAppSetupManager),
-		fx.Provide(api.NewValidator),
+		fx.Provide(util.NewValidator),
 		fx.Provide(api.NewHTTPErrorHandler),
 		fx.Provide(message.NewMessageQueueClient),
 		fx.Provide(message.NewMessageHandler),

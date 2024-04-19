@@ -2,6 +2,7 @@ package app
 
 import (
 	"exchange-service/internal/api"
+	"exchange-service/internal/util"
 	"log/slog"
 
 	"github.com/labstack/echo/v4"
@@ -16,13 +17,13 @@ type RESTApp interface {
 
 type EchoApp struct {
 	e            *echo.Echo
-	validator    api.Validator
+	validator    util.Validator
 	handlers     []api.Handler
 	errorHandler api.HTTPErrorHandler
 	log          *slog.Logger
 }
 
-func NewRestApp(handlers []api.Handler, log *slog.Logger, e *echo.Echo, errorHandler api.HTTPErrorHandler, validator api.Validator) RESTApp {
+func NewRestApp(handlers []api.Handler, log *slog.Logger, e *echo.Echo, errorHandler api.HTTPErrorHandler, validator util.Validator) RESTApp {
 	log.Info("Creating REST App")
 	return EchoApp{e, validator, handlers, errorHandler, log}
 }
