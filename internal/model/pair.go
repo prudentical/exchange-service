@@ -2,11 +2,11 @@ package model
 
 type Pair struct {
 	BaseEntity
-	BaseID     int      `json:"base_id" validate:"required"`
+	BaseID     int      `json:"baseId" validate:"required"`
 	Base       Currency `json:"base"`
-	QuoteID    int      `json:"quote_id" validate:"required"`
+	QuoteID    int      `json:"quoteId" validate:"required"`
 	Quote      Currency `json:"quote"`
-	ExchangeID int      `json:"exchange_id" validate:"required"`
+	ExchangeID int      `json:"exchangeId" validate:"required"`
 	Exchange   Exchange `json:"exchange"`
 	Symbol     string   `json:"symbol" validate:"required"`
 }

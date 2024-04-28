@@ -2,7 +2,8 @@ package app
 
 import (
 	"context"
-	"exchange-service/configuration"
+	"exchange-service/internal/configuration"
+	"exchange-service/internal/discovery"
 	"exchange-service/internal/service/exchange"
 	"fmt"
 	"log/slog"
@@ -15,12 +16,13 @@ type AppSetupManager interface {
 	Shutdown() error
 }
 type appSetupManagerImpl struct {
-	exchange exchange.ExchangeSetupService
-	app      RESTApp
+	exchange  exchange.ExchangeSetupService
+	discovery discovery.ServiceDiscovery
+	app       RESTApp
 }
 
-func NewAppSetupManager(exchange exchange.ExchangeSetupService, app RESTApp) AppSetupManager {
-	return appSetupManagerImpl{exchange, app}
+func NewAppSetupManager(exchange exchange.ExchangeSetupService, discovery discovery.ServiceDiscovery, app RESTApp) AppSetupManager {
+	return appSetupManagerImpl{exchange, discovery, app}
 }
 
 func (a appSetupManagerImpl) Setup() error {
@@ -28,10 +30,17 @@ func (a appSetupManagerImpl) Setup() error {
 	if err != nil {
 		return err
 	}
+
 	err = a.app.setup()
 	if err != nil {
 		return err
 	}
+
+	err = a.discovery.Register()
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 

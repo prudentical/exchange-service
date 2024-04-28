@@ -2,7 +2,7 @@ package message
 
 import (
 	"context"
-	"exchange-service/configuration"
+	"exchange-service/internal/configuration"
 	"fmt"
 	"log/slog"
 	"time"

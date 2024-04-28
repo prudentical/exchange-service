@@ -1,7 +1,7 @@
 package app
 
 import (
-	"exchange-service/configuration"
+	"exchange-service/internal/configuration"
 	"log/slog"
 
 	"go.uber.org/fx/fxevent"

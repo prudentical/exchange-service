@@ -23,6 +23,7 @@ const (
 
 type Config struct {
 	App struct {
+		Name       string
 		Env        string
 		Debug      bool
 		Pagination struct {
@@ -30,7 +31,8 @@ type Config struct {
 		}
 	}
 	Server struct {
-		Port string
+		Host string
+		Port int
 	}
 	Database struct {
 		Name       string
@@ -59,6 +61,12 @@ type Config struct {
 			Queue string
 		}
 	}
+	Discovery struct {
+		Server struct {
+			Host string
+			Port int
+		}
+	}
 	Logging struct {
 		Level string
 	}
@@ -68,7 +76,7 @@ var config *Config
 
 func setup() {
 	_, filename, _, _ := runtime.Caller(0)
-	dir := path.Join(path.Dir(filename), "..")
+	dir := path.Join(path.Dir(filename), "../..")
 	viper.AutomaticEnv()
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	viper.SetConfigFile(dir + "/config.yml")

@@ -2,7 +2,7 @@ package message
 
 import (
 	"encoding/json"
-	"exchange-service/configuration"
+	"exchange-service/internal/configuration"
 	"log/slog"
 )
 

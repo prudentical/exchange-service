@@ -2,7 +2,7 @@ package currency
 
 import (
 	"errors"
-	"exchange-service/configuration"
+	"exchange-service/internal/configuration"
 	"exchange-service/internal/model"
 	"exchange-service/internal/persistence"
 	"exchange-service/internal/service"
