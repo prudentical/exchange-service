@@ -1,7 +1,7 @@
 package discovery
 
 import (
-	"exchange-service/configuration"
+	"exchange-service/internal/configuration"
 
 	"fmt"
 	"log/slog"

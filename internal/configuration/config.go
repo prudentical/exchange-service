@@ -76,7 +76,7 @@ var config *Config
 
 func setup() {
 	_, filename, _, _ := runtime.Caller(0)
-	dir := path.Join(path.Dir(filename), "..")
+	dir := path.Join(path.Dir(filename), "../..")
 	viper.AutomaticEnv()
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	viper.SetConfigFile(dir + "/config.yml")

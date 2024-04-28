@@ -2,7 +2,7 @@ package app
 
 import (
 	"context"
-	"exchange-service/configuration"
+	"exchange-service/internal/configuration"
 	"exchange-service/internal/discovery"
 	"exchange-service/internal/service/exchange"
 	"fmt"
