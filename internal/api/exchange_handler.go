@@ -66,9 +66,10 @@ func (h exchangeHandlerImpl) GetAll(c echo.Context) error {
 }
 
 func (h exchangeHandlerImpl) GetById(c echo.Context) error {
-	id, err := strconv.Atoi(c.Param("id"))
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
 	if err != nil || id <= 0 {
-		return InvalidIDError{}
+		return InvalidIDError{Id: idStr, Type: model.Exchange{}}
 	}
 	exchange, err := h.service.GetById(id)
 	if err != nil {
@@ -93,10 +94,10 @@ func (h exchangeHandlerImpl) Create(c echo.Context) error {
 }
 
 func (h exchangeHandlerImpl) Update(c echo.Context) error {
-	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		// TODO: return a custom error
-		return err
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil || id <= 0 {
+		return InvalidIDError{Id: idStr, Type: model.Exchange{}}
 	}
 	var exchangeModel model.Exchange
 	if err := c.Bind(&exchangeModel); err != nil {
@@ -113,10 +114,10 @@ func (h exchangeHandlerImpl) Update(c echo.Context) error {
 }
 
 func (h exchangeHandlerImpl) Delete(c echo.Context) error {
-	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		// TODO: return a custom error
-		return err
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil || id <= 0 {
+		return InvalidIDError{Id: idStr, Type: model.Exchange{}}
 	}
 	err = h.service.Delete(id)
 	if err != nil {
@@ -126,10 +127,10 @@ func (h exchangeHandlerImpl) Delete(c echo.Context) error {
 }
 
 func (h exchangeHandlerImpl) PriceFor(c echo.Context) error {
-	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		// TODO: return a custom error
-		return err
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil || id <= 0 {
+		return InvalidIDError{Id: idStr, Type: model.Exchange{}}
 	}
 	var request exchange.PriceCheckRequest
 	if err := c.Bind(&request); err != nil {
@@ -140,7 +141,6 @@ func (h exchangeHandlerImpl) PriceFor(c echo.Context) error {
 	}
 	exchangeModel, err := h.service.GetById(id)
 	if err != nil {
-		// TODO: return a custom error
 		return err
 	}
 	exchangeSDK, err := h.sdkFactory.Create(exchangeModel)
@@ -155,10 +155,10 @@ func (h exchangeHandlerImpl) PriceFor(c echo.Context) error {
 }
 
 func (h exchangeHandlerImpl) HistoricPrice(c echo.Context) error {
-	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		// TODO: return a custom error
-		return err
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil || id <= 0 {
+		return InvalidIDError{Id: idStr, Type: model.Exchange{}}
 	}
 	var request exchange.PriceCheckRequest
 	if err := c.Bind(&request); err != nil {
@@ -169,7 +169,6 @@ func (h exchangeHandlerImpl) HistoricPrice(c echo.Context) error {
 	}
 	exchangeModel, err := h.service.GetById(id)
 	if err != nil {
-		// TODO: return a custom error
 		return err
 	}
 	exchangeSDK, err := h.sdkFactory.Create(exchangeModel)
@@ -184,10 +183,10 @@ func (h exchangeHandlerImpl) HistoricPrice(c echo.Context) error {
 }
 
 func (h exchangeHandlerImpl) Buy(c echo.Context) error {
-	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		// TODO: return a custom error
-		return err
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil || id <= 0 {
+		return InvalidIDError{Id: idStr, Type: model.Exchange{}}
 	}
 	var request exchange.OrderRequest
 	if err := c.Bind(&request); err != nil {
@@ -198,7 +197,6 @@ func (h exchangeHandlerImpl) Buy(c echo.Context) error {
 	}
 	exchangeModel, err := h.service.GetById(id)
 	if err != nil {
-		// TODO: return a custom error
 		return err
 	}
 	exchangeSDK, err := h.sdkFactory.Create(exchangeModel)
@@ -213,10 +211,10 @@ func (h exchangeHandlerImpl) Buy(c echo.Context) error {
 }
 
 func (h exchangeHandlerImpl) Sell(c echo.Context) error {
-	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		// TODO: return a custom error
-		return err
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil || id <= 0 {
+		return InvalidIDError{Id: idStr, Type: model.Exchange{}}
 	}
 	var request exchange.OrderRequest
 	if err := c.Bind(&request); err != nil {
@@ -227,7 +225,6 @@ func (h exchangeHandlerImpl) Sell(c echo.Context) error {
 	}
 	exchangeModel, err := h.service.GetById(id)
 	if err != nil {
-		// TODO: return a custom error
 		return err
 	}
 	exchangeSDK, err := h.sdkFactory.Create(exchangeModel)
