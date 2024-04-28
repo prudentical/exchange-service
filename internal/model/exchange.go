@@ -5,8 +5,8 @@ type Exchange struct {
 	Name             string `json:"name" validate:"required"`
 	Description      string `json:"description"`
 	Website          string `json:"website"`
-	DocumentationUrl string `json:"documentation_url"`
-	ApiUrl           string `json:"api_url"`
+	DocumentationUrl string `json:"documentationUrl"`
+	ApiUrl           string `json:"apiUrl"`
 	Status           string `json:"status"`
 }
 
