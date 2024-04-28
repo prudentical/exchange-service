@@ -2,6 +2,7 @@ services:
     app:
         build:
             context: .
+        hostname: exchange-service
         ports:
             - "8001:8001"
         env_file:
