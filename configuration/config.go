@@ -23,6 +23,7 @@ const (
 
 type Config struct {
 	App struct {
+		Name       string
 		Env        string
 		Debug      bool
 		Pagination struct {
@@ -30,7 +31,8 @@ type Config struct {
 		}
 	}
 	Server struct {
-		Port string
+		Host string
+		Port int
 	}
 	Database struct {
 		Name       string
@@ -57,6 +59,12 @@ type Config struct {
 				Type string
 			}
 			Queue string
+		}
+	}
+	Discovery struct {
+		Server struct {
+			Host string
+			Port int
 		}
 	}
 	Logging struct {

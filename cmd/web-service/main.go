@@ -8,6 +8,7 @@ import (
 	"exchange-service/database"
 	"exchange-service/internal/api"
 	"exchange-service/internal/app"
+	"exchange-service/internal/discovery"
 	"exchange-service/internal/message"
 	"exchange-service/internal/persistence"
 	"exchange-service/internal/sdk"
@@ -24,6 +25,7 @@ func main() {
 		fx.Provide(app.NewFxLogger),
 		fx.Provide(app.ProvideEcho),
 		fx.Provide(app.NewAppSetupManager),
+		fx.Provide(discovery.NewServiceDiscovery),
 		fx.Provide(util.NewValidator),
 		fx.Provide(api.NewHTTPErrorHandler),
 		fx.Provide(message.NewMessageQueueClient),
@@ -41,6 +43,7 @@ func main() {
 		fx.Provide(exchange.NewExchangeOrderService),
 		fx.Provide(exchange.NewExchangeService),
 		fx.Provide(exchange.NewExchangeSetupService),
+		asHandler(api.NewHealthCheck),
 		asHandler(api.NewExchangeHandler),
 		asHandler(api.NewPairHandler),
 		asHandler(api.NewCurrencyHandler),
