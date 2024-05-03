@@ -20,7 +20,7 @@ var _ = Describe("Exchange setup", Label("exchange"), func() {
 	var factory *mock_sdk.MockExchangeSDKFactory
 	var exSDK *mock_sdk.MockExchangeSDK
 	var currencies *mock_currency.MockCurrencyService
-	var exchanges *mock_exchange.MockExchangeManageService
+	var exchanges *mock_exchange.MockExchangeService
 	var pairs *mock_exchange.MockPairService
 
 	BeforeEach(func() {
@@ -28,7 +28,7 @@ var _ = Describe("Exchange setup", Label("exchange"), func() {
 		factory = mock_sdk.NewMockExchangeSDKFactory(ctrl)
 		exSDK = mock_sdk.NewMockExchangeSDK(ctrl)
 		currencies = mock_currency.NewMockCurrencyService(ctrl)
-		exchanges = mock_exchange.NewMockExchangeManageService(ctrl)
+		exchanges = mock_exchange.NewMockExchangeService(ctrl)
 		pairs = mock_exchange.NewMockPairService(ctrl)
 		setups = exchange.NewExchangeSetupService(factory, currencies, exchanges, pairs)
 	})

@@ -56,7 +56,7 @@ func (mr *MockExchangeDAOMockRecorder) Create(exchange any) *gomock.Call {
 }
 
 // Delete mocks base method.
-func (m *MockExchangeDAO) Delete(id int) error {
+func (m *MockExchangeDAO) Delete(id int64) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Delete", id)
 	ret0, _ := ret[0].(error)
@@ -85,7 +85,7 @@ func (mr *MockExchangeDAOMockRecorder) FindBy(field, value any) *gomock.Call {
 }
 
 // Get mocks base method.
-func (m *MockExchangeDAO) Get(id int) (model.Exchange, error) {
+func (m *MockExchangeDAO) Get(id int64) (model.Exchange, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Get", id)
 	ret0, _ := ret[0].(model.Exchange)

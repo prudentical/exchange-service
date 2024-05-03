@@ -13,8 +13,8 @@ type CurrencyDAO interface {
 	Create(currency model.Currency) (model.Currency, error)
 	Update(currency model.Currency) (model.Currency, error)
 	FindBy(field string, value any) ([]model.Currency, error)
-	Get(id int) (model.Currency, error)
-	Delete(id int) error
+	Get(id int64) (model.Currency, error)
+	Delete(id int64) error
 }
 
 type currencyDAOImpl struct {
@@ -41,7 +41,7 @@ func (dao currencyDAOImpl) GetAll(page int, size int) (Page[model.Currency], err
 	}, nil
 }
 
-func (dao currencyDAOImpl) Get(id int) (model.Currency, error) {
+func (dao currencyDAOImpl) Get(id int64) (model.Currency, error) {
 	var currency model.Currency
 	tx := dao.db.First(&currency, id)
 	if tx.Error != nil {
@@ -69,7 +69,7 @@ func (dao currencyDAOImpl) Update(currency model.Currency) (model.Currency, erro
 	return currency, nil
 }
 
-func (dao currencyDAOImpl) Delete(id int) error {
+func (dao currencyDAOImpl) Delete(id int64) error {
 	tx := dao.db.Delete(model.Currency{}, id)
 	return tx.Error
 }

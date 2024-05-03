@@ -11,28 +11,28 @@ import (
 )
 
 type PairService interface {
-	GetAll(exchangeId int, page int, size int) (persistence.Page[model.Pair], error)
-	GetById(exchangeId int, id int) (model.Pair, error)
-	Create(exchangeId int, pair model.Pair) (model.Pair, error)
-	Update(exchangeId int, id int, pair model.Pair) (model.Pair, error)
-	Delete(exchangeId int, id int) error
+	GetAll(exchangeId int64, page int, size int) (persistence.Page[model.Pair], error)
+	GetById(exchangeId int64, id int64) (model.Pair, error)
+	Create(exchangeId int64, pair model.Pair) (model.Pair, error)
+	Update(exchangeId int64, id int64, pair model.Pair) (model.Pair, error)
+	Delete(exchangeId int64, id int64) error
 	Merge(paris []model.Pair) error
 }
 
 type pairServiceImpl struct {
 	dao      persistence.PairDAO
-	exchange ExchangeManageService
+	exchange ExchangeService
 	currency currency.CurrencyService
 	config   configuration.Config
 	logger   *slog.Logger
 }
 
-func NewPairService(dao persistence.PairDAO, exchange ExchangeManageService,
+func NewPairService(dao persistence.PairDAO, exchange ExchangeService,
 	currency currency.CurrencyService, config configuration.Config, logger *slog.Logger) PairService {
 	return pairServiceImpl{dao, exchange, currency, config, logger}
 }
 
-func (s pairServiceImpl) GetAll(exchangeId int, page int, size int) (persistence.Page[model.Pair], error) {
+func (s pairServiceImpl) GetAll(exchangeId int64, page int, size int) (persistence.Page[model.Pair], error) {
 	s.logger.Debug("Get all")
 	if page <= 0 {
 		return persistence.Page[model.Pair]{}, service.InvalidPageError{}
@@ -55,7 +55,7 @@ func (s pairServiceImpl) GetAll(exchangeId int, page int, size int) (persistence
 	return pairs, err
 }
 
-func (s pairServiceImpl) GetById(exchangeId int, id int) (model.Pair, error) {
+func (s pairServiceImpl) GetById(exchangeId int64, id int64) (model.Pair, error) {
 	_, err := s.exchange.GetById(exchangeId)
 	if err != nil {
 		return model.Pair{}, err
@@ -73,7 +73,7 @@ func (s pairServiceImpl) GetById(exchangeId int, id int) (model.Pair, error) {
 	return pair, err
 }
 
-func (s pairServiceImpl) Create(exchangeId int, pair model.Pair) (model.Pair, error) {
+func (s pairServiceImpl) Create(exchangeId int64, pair model.Pair) (model.Pair, error) {
 	pair.ID = 0
 	exchange, err := s.exchange.GetById(exchangeId)
 	if err != nil {
@@ -84,7 +84,7 @@ func (s pairServiceImpl) Create(exchangeId int, pair model.Pair) (model.Pair, er
 	return s.dao.Create(pair)
 }
 
-func (s pairServiceImpl) Update(exchangeId int, id int, pair model.Pair) (model.Pair, error) {
+func (s pairServiceImpl) Update(exchangeId int64, id int64, pair model.Pair) (model.Pair, error) {
 	pair.ID = id
 	exchange, err := s.exchange.GetById(exchangeId)
 	if err != nil {
@@ -99,7 +99,7 @@ func (s pairServiceImpl) Update(exchangeId int, id int, pair model.Pair) (model.
 	return s.dao.Update(pair)
 }
 
-func (s pairServiceImpl) Delete(exchangeId int, id int) error {
+func (s pairServiceImpl) Delete(exchangeId int64, id int64) error {
 	_, err := s.exchange.GetById(exchangeId)
 	if err != nil {
 		return service.NotFoundError{Type: model.Exchange{}, Id: id}

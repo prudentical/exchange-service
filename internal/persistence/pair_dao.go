@@ -9,11 +9,11 @@ import (
 )
 
 type PairDAO interface {
-	GetByExchangeId(exchangeId int, page int, size int) (Page[model.Pair], error)
+	GetByExchangeId(exchangeId int64, page int, size int) (Page[model.Pair], error)
 	Create(pair model.Pair) (model.Pair, error)
 	Update(pair model.Pair) (model.Pair, error)
-	Get(id int) (model.Pair, error)
-	Delete(id int) error
+	Get(id int64) (model.Pair, error)
+	Delete(id int64) error
 	FindBy(field string, value any) ([]model.Pair, error)
 }
 
@@ -25,7 +25,7 @@ func NewPairDAO(conn *gorm.DB) PairDAO {
 	return pairDAOImpl{conn}
 }
 
-func (dao pairDAOImpl) GetByExchangeId(exchangeId int, page int, size int) (Page[model.Pair], error) {
+func (dao pairDAOImpl) GetByExchangeId(exchangeId int64, page int, size int) (Page[model.Pair], error) {
 	var pairs []model.Pair
 	// TODO: apply page limit
 	tx := dao.db.Scopes(Paginate(page, size)).Find(&pairs, "exchange_id = ?", exchangeId)
@@ -42,7 +42,7 @@ func (dao pairDAOImpl) GetByExchangeId(exchangeId int, page int, size int) (Page
 	}, nil
 }
 
-func (dao pairDAOImpl) Get(id int) (model.Pair, error) {
+func (dao pairDAOImpl) Get(id int64) (model.Pair, error) {
 	var pair model.Pair
 	tx := dao.db.First(&pair, id)
 	if tx.Error != nil {
@@ -70,7 +70,7 @@ func (dao pairDAOImpl) Update(pair model.Pair) (model.Pair, error) {
 	return pair, nil
 }
 
-func (dao pairDAOImpl) Delete(id int) error {
+func (dao pairDAOImpl) Delete(id int64) error {
 	tx := dao.db.Delete(model.Pair{}, id)
 	if tx.Error != nil {
 		return tx.Error

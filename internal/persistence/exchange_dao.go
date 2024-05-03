@@ -13,8 +13,8 @@ type ExchangeDAO interface {
 	GetAllWithPage(page int, size int) (Page[model.Exchange], error)
 	Create(exchange model.Exchange) (model.Exchange, error)
 	Update(exchange model.Exchange) (model.Exchange, error)
-	Get(id int) (model.Exchange, error)
-	Delete(id int) error
+	Get(id int64) (model.Exchange, error)
+	Delete(id int64) error
 	FindBy(field string, value any) ([]model.Exchange, error)
 }
 
@@ -51,7 +51,7 @@ func (dao exchangeDAOImpl) GetAll() ([]model.Exchange, error) {
 	return exchanges, nil
 }
 
-func (dao exchangeDAOImpl) Get(id int) (model.Exchange, error) {
+func (dao exchangeDAOImpl) Get(id int64) (model.Exchange, error) {
 	var exchange model.Exchange
 	tx := dao.db.First(&exchange, id)
 	if tx.Error != nil {
@@ -78,7 +78,7 @@ func (dao exchangeDAOImpl) Update(exchange model.Exchange) (model.Exchange, erro
 	return exchange, nil
 }
 
-func (dao exchangeDAOImpl) Delete(id int) error {
+func (dao exchangeDAOImpl) Delete(id int64) error {
 	tx := dao.db.Delete(model.Exchange{}, id)
 	return tx.Error
 }

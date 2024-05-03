@@ -41,7 +41,7 @@ func (m *MockPairService) EXPECT() *MockPairServiceMockRecorder {
 }
 
 // Create mocks base method.
-func (m *MockPairService) Create(exchangeId int, pair model.Pair) (model.Pair, error) {
+func (m *MockPairService) Create(exchangeId int64, pair model.Pair) (model.Pair, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", exchangeId, pair)
 	ret0, _ := ret[0].(model.Pair)
@@ -56,7 +56,7 @@ func (mr *MockPairServiceMockRecorder) Create(exchangeId, pair any) *gomock.Call
 }
 
 // Delete mocks base method.
-func (m *MockPairService) Delete(exchangeId, id int) error {
+func (m *MockPairService) Delete(exchangeId, id int64) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Delete", exchangeId, id)
 	ret0, _ := ret[0].(error)
@@ -70,7 +70,7 @@ func (mr *MockPairServiceMockRecorder) Delete(exchangeId, id any) *gomock.Call {
 }
 
 // GetAll mocks base method.
-func (m *MockPairService) GetAll(exchangeId, page, size int) (persistence.Page[model.Pair], error) {
+func (m *MockPairService) GetAll(exchangeId int64, page, size int) (persistence.Page[model.Pair], error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetAll", exchangeId, page, size)
 	ret0, _ := ret[0].(persistence.Page[model.Pair])
@@ -85,7 +85,7 @@ func (mr *MockPairServiceMockRecorder) GetAll(exchangeId, page, size any) *gomoc
 }
 
 // GetById mocks base method.
-func (m *MockPairService) GetById(exchangeId, id int) (model.Pair, error) {
+func (m *MockPairService) GetById(exchangeId, id int64) (model.Pair, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetById", exchangeId, id)
 	ret0, _ := ret[0].(model.Pair)
@@ -114,7 +114,7 @@ func (mr *MockPairServiceMockRecorder) Merge(paris any) *gomock.Call {
 }
 
 // Update mocks base method.
-func (m *MockPairService) Update(exchangeId, id int, pair model.Pair) (model.Pair, error) {
+func (m *MockPairService) Update(exchangeId, id int64, pair model.Pair) (model.Pair, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Update", exchangeId, id, pair)
 	ret0, _ := ret[0].(model.Pair)

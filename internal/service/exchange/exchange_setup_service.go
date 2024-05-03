@@ -13,11 +13,11 @@ type ExchangeSetupService interface {
 type exchangeSetupServiceImpl struct {
 	factory    sdk.ExchangeSDKFactory
 	currencies currency.CurrencyService
-	exchanges  ExchangeManageService
+	exchanges  ExchangeService
 	pairs      PairService
 }
 
-func NewExchangeSetupService(factory sdk.ExchangeSDKFactory, currencies currency.CurrencyService, exchanges ExchangeManageService, pairs PairService) ExchangeSetupService {
+func NewExchangeSetupService(factory sdk.ExchangeSDKFactory, currencies currency.CurrencyService, exchanges ExchangeService, pairs PairService) ExchangeSetupService {
 	return exchangeSetupServiceImpl{factory, currencies, exchanges, pairs}
 }
 

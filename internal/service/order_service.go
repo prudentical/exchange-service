@@ -2,6 +2,7 @@ package service
 
 import (
 	"exchange-service/internal/message"
+	"exchange-service/internal/sdk"
 	"time"
 
 	"github.com/shopspring/decimal"
@@ -11,15 +12,9 @@ type Order struct {
 	BotId    int             `json:"bot_id"`
 	Amount   decimal.Decimal `json:"amount"`
 	Price    decimal.Decimal `json:"price"`
-	Type     OrderType       `json:"type"`
+	Type     sdk.TradeType   `json:"type"`
 	DateTime time.Time       `json:"date_time"`
 }
-type OrderType string
-
-const (
-	BuyOrder  OrderType = "Buy"
-	SellOrder OrderType = "Sell"
-)
 
 type OrderService interface {
 	SaveOrder(order Order) error

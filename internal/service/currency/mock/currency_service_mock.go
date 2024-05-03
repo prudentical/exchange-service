@@ -56,7 +56,7 @@ func (mr *MockCurrencyServiceMockRecorder) Create(currency any) *gomock.Call {
 }
 
 // Delete mocks base method.
-func (m *MockCurrencyService) Delete(id int) error {
+func (m *MockCurrencyService) Delete(id int64) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Delete", id)
 	ret0, _ := ret[0].(error)
@@ -100,7 +100,7 @@ func (mr *MockCurrencyServiceMockRecorder) GetAll(page, size any) *gomock.Call {
 }
 
 // GetById mocks base method.
-func (m *MockCurrencyService) GetById(id int) (model.Currency, error) {
+func (m *MockCurrencyService) GetById(id int64) (model.Currency, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetById", id)
 	ret0, _ := ret[0].(model.Currency)
@@ -129,7 +129,7 @@ func (mr *MockCurrencyServiceMockRecorder) Merge(currencies any) *gomock.Call {
 }
 
 // Update mocks base method.
-func (m *MockCurrencyService) Update(id int, currency model.Currency) (model.Currency, error) {
+func (m *MockCurrencyService) Update(id int64, currency model.Currency) (model.Currency, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Update", id, currency)
 	ret0, _ := ret[0].(model.Currency)

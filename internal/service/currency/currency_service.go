@@ -10,10 +10,10 @@ import (
 
 type CurrencyService interface {
 	GetAll(page int, size int) (persistence.Page[model.Currency], error)
-	GetById(id int) (model.Currency, error)
+	GetById(id int64) (model.Currency, error)
 	Create(currency model.Currency) (model.Currency, error)
-	Update(id int, currency model.Currency) (model.Currency, error)
-	Delete(id int) error
+	Update(id int64, currency model.Currency) (model.Currency, error)
+	Delete(id int64) error
 	Merge(currencies []model.Currency) error
 	FindBySymbol(symbol string) ([]model.Currency, error)
 }
@@ -37,7 +37,7 @@ func (s currencyServiceImpl) GetAll(page int, size int) (persistence.Page[model.
 	return s.dao.GetAll(page, size)
 }
 
-func (s currencyServiceImpl) GetById(id int) (model.Currency, error) {
+func (s currencyServiceImpl) GetById(id int64) (model.Currency, error) {
 	currency, err := s.dao.Get(id)
 	if err != nil {
 		if errors.Is(err, persistence.RecordNotFoundError{}) {
@@ -53,7 +53,7 @@ func (s currencyServiceImpl) Create(currency model.Currency) (model.Currency, er
 	return s.dao.Create(currency)
 }
 
-func (s currencyServiceImpl) Update(id int, currency model.Currency) (model.Currency, error) {
+func (s currencyServiceImpl) Update(id int64, currency model.Currency) (model.Currency, error) {
 	_, err := s.dao.Get(id)
 	if err != nil {
 		if errors.Is(err, persistence.RecordNotFoundError{}) {
@@ -65,7 +65,7 @@ func (s currencyServiceImpl) Update(id int, currency model.Currency) (model.Curr
 	return s.dao.Update(currency)
 }
 
-func (s currencyServiceImpl) Delete(id int) error {
+func (s currencyServiceImpl) Delete(id int64) error {
 	_, err := s.dao.Get(id)
 	if err != nil {
 		if errors.Is(err, persistence.RecordNotFoundError{}) {

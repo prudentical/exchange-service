@@ -15,7 +15,7 @@ func (i InvalidStateError) Error() string {
 
 type NotFoundError struct {
 	Type interface{}
-	Id   int
+	Id   int64
 }
 
 func (i NotFoundError) Error() string {

@@ -5,6 +5,7 @@ import (
 	"exchange-service/internal/model"
 	"exchange-service/internal/persistence"
 	mock_persistence "exchange-service/internal/persistence/mock"
+	"exchange-service/internal/sdk"
 	mock_sdk "exchange-service/internal/sdk/mock"
 	"exchange-service/internal/service"
 	"exchange-service/internal/service/exchange"
@@ -19,7 +20,7 @@ import (
 
 var _ = Describe("Exchange order", Label("exchange"), func() {
 
-	var orders exchange.ExchangeOrderService
+	var orders exchange.OrderService
 	var ctrl *gomock.Controller
 	var dao *mock_persistence.MockExchangeDAO
 	var orderService *mock_service.MockOrderService
@@ -32,7 +33,7 @@ var _ = Describe("Exchange order", Label("exchange"), func() {
 		pairs = mock_exchange.NewMockPairService(ctrl)
 		exSDK = mock_sdk.NewMockExchangeSDK(ctrl)
 		orderService = mock_service.NewMockOrderService(ctrl)
-		orders = exchange.NewExchangeOrderService(dao, pairs, orderService)
+		orders = exchange.NewOrderService(dao, pairs, orderService)
 	})
 	AfterEach(func() {
 		ctrl.Finish()
@@ -44,8 +45,9 @@ var _ = Describe("Exchange order", Label("exchange"), func() {
 				pairs.EXPECT().GetById(gomock.Any(), gomock.Any()).Return(model.Pair{}, persistence.RecordNotFoundError{})
 				request := exchange.OrderRequest{
 					Virtual: false,
+					Type:    sdk.Buy,
 				}
-				err := orders.Buy(exSDK, request)
+				err := orders.Order(exSDK, 0, request)
 				Expect(err).To(MatchError(service.NotFoundError{Type: model.Pair{}, Id: 0}))
 			})
 		})
@@ -55,8 +57,9 @@ var _ = Describe("Exchange order", Label("exchange"), func() {
 				pairs.EXPECT().GetById(gomock.Any(), gomock.Any()).Return(model.Pair{}, nil)
 				request := exchange.OrderRequest{
 					Virtual: false,
+					Type:    sdk.Buy,
 				}
-				err := orders.Buy(exSDK, request)
+				err := orders.Order(exSDK, 0, request)
 				Expect(err.Error()).To(Equal("not implemented"))
 			})
 		})
@@ -67,8 +70,9 @@ var _ = Describe("Exchange order", Label("exchange"), func() {
 				exSDK.EXPECT().HistoricPrice(gomock.Any(), gomock.Any()).Return(decimal.NewFromFloat(10.0), errors.New(""))
 				request := exchange.OrderRequest{
 					Virtual: true,
+					Type:    sdk.Buy,
 				}
-				err := orders.Buy(exSDK, request)
+				err := orders.Order(exSDK, 0, request)
 				Expect(err).NotTo(BeNil())
 			})
 		})
@@ -80,8 +84,9 @@ var _ = Describe("Exchange order", Label("exchange"), func() {
 				orderService.EXPECT().SaveOrder(gomock.Any())
 				request := exchange.OrderRequest{
 					Virtual: true,
+					Type:    sdk.Buy,
 				}
-				err := orders.Buy(exSDK, request)
+				err := orders.Order(exSDK, 0, request)
 				Expect(err).To(BeNil())
 			})
 		})
@@ -93,8 +98,9 @@ var _ = Describe("Exchange order", Label("exchange"), func() {
 				pairs.EXPECT().GetById(gomock.Any(), gomock.Any()).Return(model.Pair{}, persistence.RecordNotFoundError{})
 				request := exchange.OrderRequest{
 					Virtual: false,
+					Type:    sdk.Sell,
 				}
-				err := orders.Sell(exSDK, request)
+				err := orders.Order(exSDK, 0, request)
 				Expect(err).To(MatchError(service.NotFoundError{Type: model.Pair{}, Id: 0}))
 			})
 		})
@@ -104,8 +110,9 @@ var _ = Describe("Exchange order", Label("exchange"), func() {
 				pairs.EXPECT().GetById(gomock.Any(), gomock.Any()).Return(model.Pair{}, nil)
 				request := exchange.OrderRequest{
 					Virtual: false,
+					Type:    sdk.Sell,
 				}
-				err := orders.Sell(exSDK, request)
+				err := orders.Order(exSDK, 0, request)
 				Expect(err.Error()).To(Equal("not implemented"))
 			})
 		})
@@ -116,8 +123,9 @@ var _ = Describe("Exchange order", Label("exchange"), func() {
 				exSDK.EXPECT().HistoricPrice(gomock.Any(), gomock.Any()).Return(decimal.NewFromFloat(10.0), errors.New(""))
 				request := exchange.OrderRequest{
 					Virtual: true,
+					Type:    sdk.Sell,
 				}
-				err := orders.Sell(exSDK, request)
+				err := orders.Order(exSDK, 0, request)
 				Expect(err).NotTo(BeNil())
 			})
 		})
@@ -129,8 +137,9 @@ var _ = Describe("Exchange order", Label("exchange"), func() {
 				orderService.EXPECT().SaveOrder(gomock.Any())
 				request := exchange.OrderRequest{
 					Virtual: true,
+					Type:    sdk.Sell,
 				}
-				err := orders.Sell(exSDK, request)
+				err := orders.Order(exSDK, 0, request)
 				Expect(err).To(BeNil())
 			})
 		})
