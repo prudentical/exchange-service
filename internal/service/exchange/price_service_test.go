@@ -20,12 +20,12 @@ var _ = Describe("Exchange price", Label("exchange"), func() {
 	var prices exchange.PriceService
 	var ctrl *gomock.Controller
 	var pairs *mock_exchange.MockPairService
-	var exSDK *mock_sdk.MockExchangeSDK
+	var exSDK *mock_sdk.MockExchangeAPIClient
 
 	BeforeEach(func() {
 		ctrl = gomock.NewController(GinkgoT())
 		pairs = mock_exchange.NewMockPairService(ctrl)
-		exSDK = mock_sdk.NewMockExchangeSDK(ctrl)
+		exSDK = mock_sdk.NewMockExchangeAPIClient(ctrl)
 		prices = exchange.NewPriceService(pairs)
 	})
 	AfterEach(func() {
@@ -45,7 +45,7 @@ var _ = Describe("Exchange price", Label("exchange"), func() {
 			It("should return the result", func() {
 				pairs.EXPECT().GetById(gomock.Any(), gomock.Any()).Return(model.Pair{}, nil)
 				exSDK.EXPECT().GetExchange().Return(model.Exchange{})
-				exSDK.EXPECT().PriceFor(gomock.Any(), gomock.Any(), gomock.Any()).Return(decimal.NewFromFloat(10.0), nil)
+				exSDK.EXPECT().PriceFor(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).Return(decimal.NewFromFloat(10.0), nil)
 				request := exchange.PriceCheckRequest{}
 				result, err := prices.GetPrice(exSDK, 0, request)
 				Expect(err).To(BeNil())

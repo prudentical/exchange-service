@@ -17,53 +17,39 @@ import (
 	gomock "go.uber.org/mock/gomock"
 )
 
-// MockExchangeOrderService is a mock of ExchangeOrderService interface.
-type MockExchangeOrderService struct {
+// MockOrderService is a mock of OrderService interface.
+type MockOrderService struct {
 	ctrl     *gomock.Controller
-	recorder *MockExchangeOrderServiceMockRecorder
+	recorder *MockOrderServiceMockRecorder
 }
 
-// MockExchangeOrderServiceMockRecorder is the mock recorder for MockExchangeOrderService.
-type MockExchangeOrderServiceMockRecorder struct {
-	mock *MockExchangeOrderService
+// MockOrderServiceMockRecorder is the mock recorder for MockOrderService.
+type MockOrderServiceMockRecorder struct {
+	mock *MockOrderService
 }
 
-// NewMockExchangeOrderService creates a new mock instance.
-func NewMockExchangeOrderService(ctrl *gomock.Controller) *MockExchangeOrderService {
-	mock := &MockExchangeOrderService{ctrl: ctrl}
-	mock.recorder = &MockExchangeOrderServiceMockRecorder{mock}
+// NewMockOrderService creates a new mock instance.
+func NewMockOrderService(ctrl *gomock.Controller) *MockOrderService {
+	mock := &MockOrderService{ctrl: ctrl}
+	mock.recorder = &MockOrderServiceMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockExchangeOrderService) EXPECT() *MockExchangeOrderServiceMockRecorder {
+func (m *MockOrderService) EXPECT() *MockOrderServiceMockRecorder {
 	return m.recorder
 }
 
-// Buy mocks base method.
-func (m *MockExchangeOrderService) Buy(exchange sdk.ExchangeSDK, pairId int64, request exchange.OrderRequest) error {
+// Order mocks base method.
+func (m *MockOrderService) Order(exchange sdk.ExchangeAPIClient, pairId int64, request exchange.OrderRequest) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Buy", exchange, pairId, request)
+	ret := m.ctrl.Call(m, "Order", exchange, pairId, request)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// Buy indicates an expected call of Buy.
-func (mr *MockExchangeOrderServiceMockRecorder) Buy(exchange, pairId, request any) *gomock.Call {
+// Order indicates an expected call of Order.
+func (mr *MockOrderServiceMockRecorder) Order(exchange, pairId, request any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Buy", reflect.TypeOf((*MockExchangeOrderService)(nil).Buy), exchange, pairId, request)
-}
-
-// Sell mocks base method.
-func (m *MockExchangeOrderService) Sell(exchange sdk.ExchangeSDK, pairId int64, request exchange.OrderRequest) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Sell", exchange, pairId, request)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// Sell indicates an expected call of Sell.
-func (mr *MockExchangeOrderServiceMockRecorder) Sell(exchange, pairId, request any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Sell", reflect.TypeOf((*MockExchangeOrderService)(nil).Sell), exchange, pairId, request)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Order", reflect.TypeOf((*MockOrderService)(nil).Order), exchange, pairId, request)
 }

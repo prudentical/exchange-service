@@ -25,15 +25,15 @@ var _ = Describe("Exchange order", Label("exchange"), func() {
 	var dao *mock_persistence.MockExchangeDAO
 	var orderService *mock_service.MockOrderService
 	var pairs *mock_exchange.MockPairService
-	var exSDK *mock_sdk.MockExchangeSDK
+	var exSDK *mock_sdk.MockExchangeAPIClient
 
 	BeforeEach(func() {
 		ctrl = gomock.NewController(GinkgoT())
 		dao = mock_persistence.NewMockExchangeDAO(ctrl)
 		pairs = mock_exchange.NewMockPairService(ctrl)
-		exSDK = mock_sdk.NewMockExchangeSDK(ctrl)
+		exSDK = mock_sdk.NewMockExchangeAPIClient(ctrl)
 		orderService = mock_service.NewMockOrderService(ctrl)
-		orders = exchange.NewOrderService(dao, pairs, orderService)
+		orders = exchange.NewOrderService(dao, orderService)
 	})
 	AfterEach(func() {
 		ctrl.Finish()

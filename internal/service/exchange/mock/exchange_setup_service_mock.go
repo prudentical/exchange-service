@@ -54,7 +54,7 @@ func (mr *MockExchangeSetupServiceMockRecorder) Setup() *gomock.Call {
 }
 
 // addCurrencies mocks base method.
-func (m *MockExchangeSetupService) addCurrencies(exchangeSDK sdk.ExchangeSDK) error {
+func (m *MockExchangeSetupService) addCurrencies(exchangeSDK sdk.ExchangeAPIClient) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "addCurrencies", exchangeSDK)
 	ret0, _ := ret[0].(error)
@@ -68,7 +68,7 @@ func (mr *MockExchangeSetupServiceMockRecorder) addCurrencies(exchangeSDK any) *
 }
 
 // addPairs mocks base method.
-func (m *MockExchangeSetupService) addPairs(exchangeSDK sdk.ExchangeSDK) error {
+func (m *MockExchangeSetupService) addPairs(exchangeSDK sdk.ExchangeAPIClient) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "addPairs", exchangeSDK)
 	ret0, _ := ret[0].(error)

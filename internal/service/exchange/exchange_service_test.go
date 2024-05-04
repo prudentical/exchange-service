@@ -5,6 +5,7 @@ import (
 	"exchange-service/internal/persistence"
 	mock_persistence "exchange-service/internal/persistence/mock"
 	"exchange-service/internal/sdk"
+	mock_sdk "exchange-service/internal/sdk/mock"
 	"exchange-service/internal/service"
 	"exchange-service/internal/service/exchange"
 
@@ -18,11 +19,13 @@ var _ = Describe("Exchange manage", Label("exchange"), func() {
 	var manager exchange.ExchangeService
 	var ctrl *gomock.Controller
 	var dao *mock_persistence.MockExchangeDAO
+	var client *mock_sdk.MockWallexClient
 
 	BeforeEach(func() {
 		ctrl = gomock.NewController(GinkgoT())
 		dao = mock_persistence.NewMockExchangeDAO(ctrl)
-		manager = exchange.NewExchangeService(dao, sdk.NewExchangeSDKFactory())
+		client = mock_sdk.NewMockWallexClient(ctrl)
+		manager = exchange.NewExchangeService(dao, sdk.NewExchangeAPIClientFactory(client))
 	})
 	AfterEach(func() {
 		ctrl.Finish()

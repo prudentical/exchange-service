@@ -42,7 +42,7 @@ func (m *MockPriceService) EXPECT() *MockPriceServiceMockRecorder {
 }
 
 // GetPrice mocks base method.
-func (m *MockPriceService) GetPrice(exchange sdk.ExchangeSDK, pairId int64, request exchange.PriceCheckRequest) (decimal.Decimal, error) {
+func (m *MockPriceService) GetPrice(exchange sdk.ExchangeAPIClient, pairId int64, request exchange.PriceCheckRequest) (decimal.Decimal, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetPrice", exchange, pairId, request)
 	ret0, _ := ret[0].(decimal.Decimal)
