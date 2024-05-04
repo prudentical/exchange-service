@@ -12,11 +12,11 @@ import (
 )
 
 type PriceCheckRequest struct {
-	ApiKey    string           `json:"api_key"`
-	DateTime  *time.Time       `json:"date_time"`
-	Amount    *decimal.Decimal `json:"amount"`
-	Funds     *decimal.Decimal `json:"funds"`
-	TradeType sdk.TradeType    `json:"trade_type" validate:"required"`
+	ApiKey    string           `json:"apiKey" query:"apiKey"`
+	DateTime  *time.Time       `json:"datetime" query:"datetime"`
+	Amount    *decimal.Decimal `json:"amount" query:"amount"`
+	Funds     *decimal.Decimal `json:"funds" query:"funds"`
+	TradeType sdk.TradeType    `json:"tradeType" query:"tradeType" validate:"required"`
 }
 
 type PriceCheckResponse struct {

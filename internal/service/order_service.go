@@ -9,11 +9,11 @@ import (
 )
 
 type Order struct {
-	BotId    int             `json:"bot_id"`
+	BotId    int             `json:"botId"`
 	Amount   decimal.Decimal `json:"amount"`
 	Price    decimal.Decimal `json:"price"`
 	Type     sdk.TradeType   `json:"type"`
-	DateTime time.Time       `json:"date_time"`
+	DateTime time.Time       `json:"datetime"`
 }
 
 type OrderService interface {

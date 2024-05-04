@@ -11,10 +11,10 @@ import (
 )
 
 type OrderRequest struct {
-	BotId    int             `json:"bot_id"`
-	ApiKey   string          `json:"api_key"`
+	BotId    int             `json:"botId"`
+	ApiKey   string          `json:"apiKey"`
 	Virtual  bool            `json:"virtual"`
-	DateTime *time.Time      `json:"date_time"`
+	DateTime *time.Time      `json:"datetime"`
 	Amount   decimal.Decimal `json:"amount"`
 	Price    decimal.Decimal `json:"price"`
 	Type     sdk.TradeType   `json:"type"`
