@@ -17,10 +17,10 @@ type ExchangeService interface {
 
 type exchangeServiceImpl struct {
 	dao     persistence.ExchangeDAO
-	factory sdk.ExchangeSDKFactory
+	factory sdk.ExchangeAPIClientFactory
 }
 
-func NewExchangeService(dao persistence.ExchangeDAO, factory sdk.ExchangeSDKFactory) ExchangeService {
+func NewExchangeService(dao persistence.ExchangeDAO, factory sdk.ExchangeAPIClientFactory) ExchangeService {
 	return exchangeServiceImpl{dao, factory}
 }
 

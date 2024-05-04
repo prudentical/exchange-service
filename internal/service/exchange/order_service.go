@@ -2,7 +2,6 @@ package exchange
 
 import (
 	"errors"
-	"exchange-service/internal/model"
 	"exchange-service/internal/persistence"
 	"exchange-service/internal/sdk"
 	"exchange-service/internal/service"
@@ -32,41 +31,20 @@ func (o OrderRequest) toOrder() service.Order {
 }
 
 type OrderService interface {
-	Order(exchange sdk.ExchangeSDK, pairId int64, request OrderRequest) error
+	Order(exchange sdk.ExchangeAPIClient, pairId int64, request OrderRequest) error
 }
 
 type orderServiceImpl struct {
 	dao    persistence.ExchangeDAO
-	pairs  PairService
 	orders service.OrderService
 }
 
-func NewOrderService(dao persistence.ExchangeDAO, pairs PairService, orders service.OrderService) OrderService {
-	return orderServiceImpl{dao: dao, pairs: pairs, orders: orders}
+func NewOrderService(dao persistence.ExchangeDAO, orders service.OrderService) OrderService {
+	return orderServiceImpl{dao: dao, orders: orders}
 }
 
-func (s orderServiceImpl) Order(exchange sdk.ExchangeSDK, pairId int64, request OrderRequest) error {
-	pair, err := s.pairs.GetById(exchange.GetExchange().ID, pairId)
-	if err != nil {
-		if errors.Is(err, persistence.RecordNotFoundError{}) {
-			return service.NotFoundError{Type: model.Pair{}, Id: pairId}
-		}
-		return err
-	}
-
-	if request.Virtual {
-		var price decimal.Decimal
-		var err error
-		if request.DateTime == nil {
-			price, err = exchange.PriceFor(pair, request.Amount, request.Type)
-		} else {
-			price, err = exchange.HistoricPrice(pair, *request.DateTime)
-		}
-		if err != nil {
-			return err
-		}
-		request.Price = price
-	} else {
+func (s orderServiceImpl) Order(exchange sdk.ExchangeAPIClient, pairId int64, request OrderRequest) error {
+	if !request.Virtual {
 		switch request.Type {
 		case sdk.Buy:
 			// Todo: Implement buy

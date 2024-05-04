@@ -19,12 +19,12 @@ type PriceHandler interface {
 type priceHandlerImpl struct {
 	price    exchange.PriceService
 	exchange exchange.ExchangeService
-	factory  sdk.ExchangeSDKFactory
+	factory  sdk.ExchangeAPIClientFactory
 	log      *slog.Logger
 }
 
 func NewPriceHandler(price exchange.PriceService, exchange exchange.ExchangeService,
-	factory sdk.ExchangeSDKFactory, log *slog.Logger) PriceHandler {
+	factory sdk.ExchangeAPIClientFactory, log *slog.Logger) PriceHandler {
 	return priceHandlerImpl{price, exchange, factory, log}
 }
 

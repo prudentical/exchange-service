@@ -19,10 +19,10 @@ type ExchangeHandler interface {
 
 type exchangeHandlerImpl struct {
 	service    exchange.ExchangeService
-	sdkFactory sdk.ExchangeSDKFactory
+	sdkFactory sdk.ExchangeAPIClientFactory
 }
 
-func NewExchangeHandler(service exchange.ExchangeService, sdkFactory sdk.ExchangeSDKFactory) ExchangeHandler {
+func NewExchangeHandler(service exchange.ExchangeService, sdkFactory sdk.ExchangeAPIClientFactory) ExchangeHandler {
 	return exchangeHandlerImpl{service, sdkFactory}
 }
 

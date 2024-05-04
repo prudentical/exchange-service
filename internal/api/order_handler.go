@@ -19,12 +19,12 @@ type OrderHandler interface {
 type orderHandlerImpl struct {
 	order    exchange.OrderService
 	exchange exchange.ExchangeService
-	factory  sdk.ExchangeSDKFactory
+	factory  sdk.ExchangeAPIClientFactory
 	log      *slog.Logger
 }
 
 func NewOrderHandler(order exchange.OrderService, exchange exchange.ExchangeService,
-	factory sdk.ExchangeSDKFactory, log *slog.Logger) OrderHandler {
+	factory sdk.ExchangeAPIClientFactory, log *slog.Logger) OrderHandler {
 	return orderHandlerImpl{order, exchange, factory, log}
 }
 
