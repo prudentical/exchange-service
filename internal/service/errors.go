@@ -50,3 +50,10 @@ type InvalidPageError struct {
 func (i InvalidPageError) Error() string {
 	return "Invalid page!"
 }
+
+type OrderAmountRequiredError struct {
+}
+
+func (i OrderAmountRequiredError) Error() string {
+	return "Order amount is required"
+}

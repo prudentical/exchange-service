@@ -10,7 +10,7 @@
 package mock_service
 
 import (
-	service "exchange-service/internal/service"
+	dto "exchange-service/internal/dto"
 	reflect "reflect"
 
 	gomock "go.uber.org/mock/gomock"
@@ -40,7 +40,7 @@ func (m *MockOrderService) EXPECT() *MockOrderServiceMockRecorder {
 }
 
 // SaveOrder mocks base method.
-func (m *MockOrderService) SaveOrder(order service.Order) error {
+func (m *MockOrderService) SaveOrder(order dto.OrderDTO) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SaveOrder", order)
 	ret0, _ := ret[0].(error)

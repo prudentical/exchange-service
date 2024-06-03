@@ -2,49 +2,54 @@ package exchange
 
 import (
 	"errors"
+	"exchange-service/internal/dto"
 	"exchange-service/internal/persistence"
 	"exchange-service/internal/sdk"
 	"exchange-service/internal/service"
-	"time"
 
 	"github.com/shopspring/decimal"
 )
 
-type OrderRequest struct {
-	BotId    int             `json:"botId"`
-	ApiKey   string          `json:"apiKey"`
-	Virtual  bool            `json:"virtual"`
-	DateTime *time.Time      `json:"datetime"`
-	Amount   decimal.Decimal `json:"amount"`
-	Price    decimal.Decimal `json:"price"`
-	Type     sdk.TradeType   `json:"type"`
-}
-
-func (o OrderRequest) toOrder() service.Order {
-	return service.Order{
-		BotId:    o.BotId,
-		Amount:   o.Amount,
-		Price:    o.Price,
-		Type:     o.Type,
-		DateTime: time.Now(),
-	}
-}
-
 type OrderService interface {
-	Order(exchange sdk.ExchangeAPIClient, pairId int64, request OrderRequest) error
+	Order(exchange sdk.ExchangeAPIClient, pairId int64, request dto.OrderDTO) error
 }
 
 type orderServiceImpl struct {
 	dao    persistence.ExchangeDAO
 	orders service.OrderService
+	pairs  PairService
 }
 
-func NewOrderService(dao persistence.ExchangeDAO, orders service.OrderService) OrderService {
-	return orderServiceImpl{dao: dao, orders: orders}
+func NewOrderService(dao persistence.ExchangeDAO, orders service.OrderService, pairs PairService) OrderService {
+	return orderServiceImpl{dao: dao, orders: orders, pairs: pairs}
 }
 
-func (s orderServiceImpl) Order(exchange sdk.ExchangeAPIClient, pairId int64, request OrderRequest) error {
-	if !request.Virtual {
+func (s orderServiceImpl) Order(exchange sdk.ExchangeAPIClient, pairId int64, request dto.OrderDTO) error {
+	if request.Amount.LessThanOrEqual(decimal.NewFromInt(0)) {
+		return service.OrderAmountRequiredError{}
+	}
+	pair, err := s.pairs.GetById(exchange.GetExchange().ID, pairId)
+	if err != nil {
+		return err
+	}
+	if request.IsVirtual {
+		if request.DateTime != nil {
+			price, err := exchange.HistoricPrice(pair, *request.DateTime)
+			if err != nil {
+				return err
+			}
+			request.Price = price
+		} else {
+			price, err := exchange.PriceFor(pair, &request.Amount, nil, request.Type)
+			if err != nil {
+				return err
+			}
+			request.Price = price
+		}
+		request.FilledAmount = request.Amount
+		request.Status = dto.Fulfilled
+		request.InternalId = "VIRT"
+	} else {
 		switch request.Type {
 		case sdk.Buy:
 			// Todo: Implement buy
@@ -55,5 +60,5 @@ func (s orderServiceImpl) Order(exchange sdk.ExchangeAPIClient, pairId int64, re
 		}
 		return errors.New("not implemented")
 	}
-	return s.orders.SaveOrder(request.toOrder())
+	return s.orders.SaveOrder(request)
 }

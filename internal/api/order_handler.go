@@ -1,6 +1,7 @@
 package api
 
 import (
+	"exchange-service/internal/dto"
 	"exchange-service/internal/model"
 	"exchange-service/internal/sdk"
 	"exchange-service/internal/service/exchange"
@@ -29,7 +30,7 @@ func NewOrderHandler(order exchange.OrderService, exchange exchange.ExchangeServ
 }
 
 func (h orderHandlerImpl) HandleRoutes(e *echo.Echo) {
-	e.GET("/exchanges/:exchange_id/pairs/:pair_id/order", h.Order)
+	e.POST("/exchanges/:exchange_id/pairs/:pair_id/order", h.Order)
 }
 
 func (h orderHandlerImpl) Order(c echo.Context) error {
@@ -45,7 +46,7 @@ func (h orderHandlerImpl) Order(c echo.Context) error {
 		return InvalidIDError{Id: pairIdStr, Type: model.Pair{}}
 	}
 
-	var request exchange.OrderRequest
+	var request dto.OrderDTO
 	if err := c.Bind(&request); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}

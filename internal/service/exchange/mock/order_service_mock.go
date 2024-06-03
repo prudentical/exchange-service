@@ -10,8 +10,8 @@
 package mock_exchange
 
 import (
+	dto "exchange-service/internal/dto"
 	sdk "exchange-service/internal/sdk"
-	exchange "exchange-service/internal/service/exchange"
 	reflect "reflect"
 
 	gomock "go.uber.org/mock/gomock"
@@ -41,7 +41,7 @@ func (m *MockOrderService) EXPECT() *MockOrderServiceMockRecorder {
 }
 
 // Order mocks base method.
-func (m *MockOrderService) Order(exchange sdk.ExchangeAPIClient, pairId int64, request exchange.OrderRequest) error {
+func (m *MockOrderService) Order(exchange sdk.ExchangeAPIClient, pairId int64, request dto.OrderDTO) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Order", exchange, pairId, request)
 	ret0, _ := ret[0].(error)
