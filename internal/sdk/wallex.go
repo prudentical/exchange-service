@@ -98,10 +98,10 @@ func (s wallexAPI) PriceFor(pair model.Pair, amount *decimal.Decimal, funds *dec
 		return decimal.Decimal{}, InvalidTradeType{string(tradeType)}
 	}
 	if amount != nil {
-		return s.calcPriceForAmount(orders, *amount)
+		return s.calcPriceForAmount(pair.Symbol, orders, *amount)
 	}
 	if funds != nil {
-		return s.CalcPriceForFunds(orders, *funds)
+		return s.CalcPriceForFunds(pair.Symbol, orders, *funds)
 	}
 	if len(orders) == 0 {
 		return decimal.Decimal{}, InsufficientMarketOrderError{}
@@ -109,7 +109,7 @@ func (s wallexAPI) PriceFor(pair model.Pair, amount *decimal.Decimal, funds *dec
 	return decimal.NewFromString(string(orders[0].Price))
 }
 
-func (wallexAPI) calcPriceForAmount(orders []*wallex.MarketOrder, amount decimal.Decimal) (decimal.Decimal, error) {
+func (wallexAPI) calcPriceForAmount(pairSymbol string, orders []*wallex.MarketOrder, amount decimal.Decimal) (decimal.Decimal, error) {
 	price := decimal.NewFromInt32(0)
 	sum := decimal.NewFromInt32(0)
 	for _, order := range orders {
@@ -137,12 +137,12 @@ func (wallexAPI) calcPriceForAmount(orders []*wallex.MarketOrder, amount decimal
 		}
 	}
 	if sum.Cmp(amount) < 0 {
-		return decimal.Decimal{}, InsufficientMarketOrderError{}
+		return decimal.Decimal{}, InsufficientMarketOrderError{PairSymbol: pairSymbol, Asked: amount, Available: sum}
 	}
 	return price.Div(amount), nil
 }
 
-func (wallexAPI) CalcPriceForFunds(orders []*wallex.MarketOrder, funds decimal.Decimal) (decimal.Decimal, error) {
+func (wallexAPI) CalcPriceForFunds(pairSymbol string, orders []*wallex.MarketOrder, funds decimal.Decimal) (decimal.Decimal, error) {
 	amount := decimal.NewFromInt32(0)
 	sum := decimal.NewFromInt32(0)
 	for _, order := range orders {
@@ -170,7 +170,7 @@ func (wallexAPI) CalcPriceForFunds(orders []*wallex.MarketOrder, funds decimal.D
 		}
 	}
 	if sum.Cmp(funds) < 0 {
-		return decimal.Decimal{}, InsufficientMarketOrderError{}
+		return decimal.Decimal{}, InsufficientMarketOrderError{PairSymbol: pairSymbol, Asked: funds, Available: sum}
 	}
 	return funds.Div(amount), nil
 }
