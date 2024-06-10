@@ -54,7 +54,7 @@ func (s currencyServiceImpl) Create(currency model.Currency) (model.Currency, er
 }
 
 func (s currencyServiceImpl) Update(id int64, currency model.Currency) (model.Currency, error) {
-	_, err := s.dao.Get(id)
+	existing, err := s.dao.Get(id)
 	if err != nil {
 		if errors.Is(err, persistence.RecordNotFoundError{}) {
 			return model.Currency{}, service.NotFoundError{Type: model.Currency{}, Id: id}
@@ -62,6 +62,7 @@ func (s currencyServiceImpl) Update(id int64, currency model.Currency) (model.Cu
 		return model.Currency{}, err
 	}
 	currency.ID = id
+	currency.CreatedAt = existing.CreatedAt
 	return s.dao.Update(currency)
 }
 

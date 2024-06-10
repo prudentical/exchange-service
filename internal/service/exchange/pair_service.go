@@ -90,12 +90,13 @@ func (s pairServiceImpl) Update(exchangeId int64, id int64, pair model.Pair) (mo
 	if err != nil {
 		return model.Pair{}, err
 	}
-	_, err = s.dao.Get(id)
+	existing, err := s.dao.Get(id)
 	if err != nil {
 		return model.Pair{}, err
 	}
 	pair.ExchangeID = exchange.ID
 	pair.Exchange = exchange
+	pair.CreatedAt = existing.CreatedAt
 	return s.dao.Update(pair)
 }
 
@@ -127,17 +128,21 @@ func (s pairServiceImpl) Merge(paris []model.Pair) error {
 			return err
 		}
 		base, err := s.currency.FindBySymbol(pair.Base.Symbol)
+		s.logger.Debug("Checking for base currency", "base", pair.Base.Symbol, "found", len(base))
 		if err != nil {
 			return err
 		}
 		quote, err := s.currency.FindBySymbol(pair.Quote.Symbol)
+		s.logger.Debug("Checking for quote currency", "quote", pair.Quote.Symbol, "found", len(quote))
 		if err != nil {
 			return err
 		}
 		if len(base) != 0 {
 			pair.BaseID = base[0].ID
+			pair.Base = model.Currency{}
 		} else {
 			created, err := s.currency.Create(pair.Base)
+			s.logger.Debug("Created base currency", "base", pair.Base.Symbol, "id", created.ID)
 			if err != nil {
 				return err
 			}
@@ -145,8 +150,10 @@ func (s pairServiceImpl) Merge(paris []model.Pair) error {
 		}
 		if len(quote) != 0 {
 			pair.QuoteID = quote[0].ID
+			pair.Quote = model.Currency{}
 		} else {
 			created, err := s.currency.Create(pair.Quote)
+			s.logger.Debug("Created quote currency", "quote", pair.Quote.Symbol, "id", created.ID)
 			if err != nil {
 				return err
 			}

@@ -44,7 +44,7 @@ func (s exchangeServiceImpl) GetById(id int64) (model.Exchange, error) {
 }
 
 func (s exchangeServiceImpl) Update(id int64, exchange model.Exchange) (model.Exchange, error) {
-	_, err := s.dao.Get(id)
+	existing, err := s.dao.Get(id)
 	if err != nil {
 		if errors.Is(err, persistence.RecordNotFoundError{}) {
 			return model.Exchange{}, service.NotFoundError{Type: model.Exchange{}, Id: id}
@@ -52,5 +52,6 @@ func (s exchangeServiceImpl) Update(id int64, exchange model.Exchange) (model.Ex
 		return model.Exchange{}, err
 	}
 	exchange.ID = id
+	exchange.CreatedAt = existing.CreatedAt
 	return s.dao.Update(exchange)
 }
