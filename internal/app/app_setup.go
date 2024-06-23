@@ -49,15 +49,15 @@ func (a appSetupManagerImpl) Shutdown() error {
 }
 
 func ManageLifeCycle(lc fx.Lifecycle, config configuration.Config, log *slog.Logger, app RESTApp, manager AppSetupManager) {
+	err := manager.Setup()
+	if err != nil {
+		panic(err)
+	}
 	lc.Append(fx.Hook{
 		OnStart: func(ctx context.Context) error {
 			log.Info("Starting the server")
-			err := manager.Setup()
-			if err != nil {
-				return err
-			}
 			go app.server().Start(fmt.Sprintf(":%v", config.Server.Port))
-			return err
+			return nil
 		},
 		OnStop: func(ctx context.Context) error {
 			log.Info("Shuting down the server")

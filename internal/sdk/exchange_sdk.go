@@ -23,31 +23,32 @@ func (e InvalidTradeType) Error() string {
 	return fmt.Sprintf("Invalid trade type {%s}", e.tradeType)
 }
 
-type ExchangeSDK interface {
+type ExchangeAPIClient interface {
 	Currencies() ([]model.Currency, error)
 	Pairs() ([]model.Pair, error)
-	PriceFor(pair model.Pair, amount decimal.Decimal, tradeType TradeType) (decimal.Decimal, error)
+	PriceFor(pair model.Pair, amount *decimal.Decimal, funds *decimal.Decimal, tradeType TradeType) (decimal.Decimal, error)
 	HistoricPrice(pair model.Pair, time time.Time) (decimal.Decimal, error)
 	GetExchange() model.Exchange
 }
 
-type ExchangeSDKFactory interface {
-	Create(exchange model.Exchange) (ExchangeSDK, error)
+type ExchangeAPIClientFactory interface {
+	Create(exchange model.Exchange) (ExchangeAPIClient, error)
 }
 
-type exchangeSDKFactoryImpl struct {
+type exchangeAPIClientFactoryImpl struct {
+	wallexClient WallexClient
 }
 
-func NewExchangeSDKFactory() ExchangeSDKFactory {
-	return exchangeSDKFactoryImpl{}
+func NewExchangeAPIClientFactory(wallexClient WallexClient) ExchangeAPIClientFactory {
+	return exchangeAPIClientFactoryImpl{wallexClient}
 }
 
-func (exchangeSDKFactoryImpl) Create(exchange model.Exchange) (ExchangeSDK, error) {
+func (f exchangeAPIClientFactoryImpl) Create(exchange model.Exchange) (ExchangeAPIClient, error) {
 	switch ExchangeType(exchange.Name) {
 	case Wallex:
-		return newWallexSDK(exchange), nil
+		return newWallexAPIClient(exchange, f.wallexClient), nil
 	default:
-		return wallexSDK{}, NoImplementationFoundError{exchange.Name}
+		return wallexAPI{}, NoImplementationFoundError{exchange.Name}
 	}
 }
 

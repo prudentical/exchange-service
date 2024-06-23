@@ -38,7 +38,7 @@ func (h pairHandlerImpl) HandleRoutes(e *echo.Echo) {
 
 func (h pairHandlerImpl) GetAll(c echo.Context) error {
 	exchangeIdStr := c.Param("exchange_id")
-	exchangeId, err := strconv.Atoi(exchangeIdStr)
+	exchangeId, err := strconv.ParseInt(exchangeIdStr, 10, 64)
 	if err != nil {
 		return err
 	}
@@ -63,12 +63,12 @@ func (h pairHandlerImpl) GetAll(c echo.Context) error {
 
 func (h pairHandlerImpl) GetById(c echo.Context) error {
 	exchangeIdStr := c.Param("exchange_id")
-	exchangeId, err := strconv.Atoi(exchangeIdStr)
+	exchangeId, err := strconv.ParseInt(exchangeIdStr, 10, 64)
 	if err != nil {
 		return err
 	}
 	idStr := c.Param("id")
-	id, err := strconv.Atoi(idStr)
+	id, err := strconv.ParseInt(idStr, 10, 64)
 	if err != nil {
 		return err
 	}
@@ -81,7 +81,7 @@ func (h pairHandlerImpl) GetById(c echo.Context) error {
 
 func (h pairHandlerImpl) Create(c echo.Context) error {
 	exchangeIdStr := c.Param("exchange_id")
-	exchangeId, err := strconv.Atoi(exchangeIdStr)
+	exchangeId, err := strconv.ParseInt(exchangeIdStr, 10, 64)
 	if err != nil {
 		return err
 	}
@@ -102,12 +102,12 @@ func (h pairHandlerImpl) Create(c echo.Context) error {
 
 func (h pairHandlerImpl) Update(c echo.Context) error {
 	exchangeIdStr := c.Param("exchange_id")
-	exchangeId, err := strconv.Atoi(exchangeIdStr)
+	exchangeId, err := strconv.ParseInt(exchangeIdStr, 10, 64)
 	if err != nil {
 		return err
 	}
 	idStr := c.Param("id")
-	id, err := strconv.Atoi(idStr)
+	id, err := strconv.ParseInt(idStr, 10, 64)
 	if err != nil {
 		return err
 	}
@@ -127,12 +127,12 @@ func (h pairHandlerImpl) Update(c echo.Context) error {
 
 func (h pairHandlerImpl) Delete(c echo.Context) error {
 	exchangeIdStr := c.Param("exchange_id")
-	exchangeId, err := strconv.Atoi(exchangeIdStr)
+	exchangeId, err := strconv.ParseInt(exchangeIdStr, 10, 64)
 	if err != nil {
 		return err
 	}
 	idStr := c.Param("id")
-	id, err := strconv.Atoi(idStr)
+	id, err := strconv.ParseInt(idStr, 10, 64)
 	if err != nil {
 		return err
 	}

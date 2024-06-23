@@ -2,6 +2,7 @@ package database
 
 import (
 	"exchange-service/internal/configuration"
+	"exchange-service/internal/util"
 	"fmt"
 	"log/slog"
 	"time"
@@ -69,7 +70,7 @@ func migrateSchema(db *gorm.DB, logger *slog.Logger) error {
 		return err
 	}
 	m, err := migrate.NewWithDatabaseInstance(
-		"file://./internal/database/migrations",
+		"file://"+util.RootDir()+"/internal/database/migrations",
 		"postgres", driver)
 	if err != nil {
 		return err

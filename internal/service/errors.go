@@ -15,7 +15,7 @@ func (i InvalidStateError) Error() string {
 
 type NotFoundError struct {
 	Type interface{}
-	Id   int
+	Id   int64
 }
 
 func (i NotFoundError) Error() string {
@@ -49,4 +49,11 @@ type InvalidPageError struct {
 
 func (i InvalidPageError) Error() string {
 	return "Invalid page!"
+}
+
+type OrderAmountRequiredError struct {
+}
+
+func (i OrderAmountRequiredError) Error() string {
+	return "Order amount is required"
 }

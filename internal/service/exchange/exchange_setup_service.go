@@ -7,17 +7,17 @@ import (
 
 type ExchangeSetupService interface {
 	Setup() error
-	addCurrencies(exchangeSDK sdk.ExchangeSDK) error
-	addPairs(exchangeSDK sdk.ExchangeSDK) error
+	addCurrencies(exchangeSDK sdk.ExchangeAPIClient) error
+	addPairs(exchangeSDK sdk.ExchangeAPIClient) error
 }
 type exchangeSetupServiceImpl struct {
-	factory    sdk.ExchangeSDKFactory
+	factory    sdk.ExchangeAPIClientFactory
 	currencies currency.CurrencyService
-	exchanges  ExchangeManageService
+	exchanges  ExchangeService
 	pairs      PairService
 }
 
-func NewExchangeSetupService(factory sdk.ExchangeSDKFactory, currencies currency.CurrencyService, exchanges ExchangeManageService, pairs PairService) ExchangeSetupService {
+func NewExchangeSetupService(factory sdk.ExchangeAPIClientFactory, currencies currency.CurrencyService, exchanges ExchangeService, pairs PairService) ExchangeSetupService {
 	return exchangeSetupServiceImpl{factory, currencies, exchanges, pairs}
 }
 
@@ -43,7 +43,7 @@ func (s exchangeSetupServiceImpl) Setup() error {
 	return nil
 }
 
-func (s exchangeSetupServiceImpl) addCurrencies(exchangeSDK sdk.ExchangeSDK) error {
+func (s exchangeSetupServiceImpl) addCurrencies(exchangeSDK sdk.ExchangeAPIClient) error {
 	currencies, err := exchangeSDK.Currencies()
 	if err != nil {
 		return err
@@ -51,7 +51,7 @@ func (s exchangeSetupServiceImpl) addCurrencies(exchangeSDK sdk.ExchangeSDK) err
 	return s.currencies.Merge(currencies)
 }
 
-func (s exchangeSetupServiceImpl) addPairs(exchangeSDK sdk.ExchangeSDK) error {
+func (s exchangeSetupServiceImpl) addPairs(exchangeSDK sdk.ExchangeAPIClient) error {
 	pairs, err := exchangeSDK.Pairs()
 	if err != nil {
 		return err

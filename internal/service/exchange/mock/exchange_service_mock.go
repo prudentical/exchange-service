@@ -12,11 +12,8 @@ package mock_exchange
 import (
 	model "exchange-service/internal/model"
 	persistence "exchange-service/internal/persistence"
-	sdk "exchange-service/internal/sdk"
-	exchange "exchange-service/internal/service/exchange"
 	reflect "reflect"
 
-	decimal "github.com/shopspring/decimal"
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -41,49 +38,6 @@ func NewMockExchangeService(ctrl *gomock.Controller) *MockExchangeService {
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockExchangeService) EXPECT() *MockExchangeServiceMockRecorder {
 	return m.recorder
-}
-
-// Buy mocks base method.
-func (m *MockExchangeService) Buy(exchange sdk.ExchangeSDK, request exchange.OrderRequest) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Buy", exchange, request)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// Buy indicates an expected call of Buy.
-func (mr *MockExchangeServiceMockRecorder) Buy(exchange, request any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Buy", reflect.TypeOf((*MockExchangeService)(nil).Buy), exchange, request)
-}
-
-// Create mocks base method.
-func (m *MockExchangeService) Create(exchange model.Exchange) (model.Exchange, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Create", exchange)
-	ret0, _ := ret[0].(model.Exchange)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// Create indicates an expected call of Create.
-func (mr *MockExchangeServiceMockRecorder) Create(exchange any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockExchangeService)(nil).Create), exchange)
-}
-
-// Delete mocks base method.
-func (m *MockExchangeService) Delete(id int) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Delete", id)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// Delete indicates an expected call of Delete.
-func (mr *MockExchangeServiceMockRecorder) Delete(id any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockExchangeService)(nil).Delete), id)
 }
 
 // GetAll mocks base method.
@@ -117,7 +71,7 @@ func (mr *MockExchangeServiceMockRecorder) GetAllWithPage(page, size any) *gomoc
 }
 
 // GetById mocks base method.
-func (m *MockExchangeService) GetById(id int) (model.Exchange, error) {
+func (m *MockExchangeService) GetById(id int64) (model.Exchange, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetById", id)
 	ret0, _ := ret[0].(model.Exchange)
@@ -131,52 +85,8 @@ func (mr *MockExchangeServiceMockRecorder) GetById(id any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetById", reflect.TypeOf((*MockExchangeService)(nil).GetById), id)
 }
 
-// HistoricPrice mocks base method.
-func (m *MockExchangeService) HistoricPrice(exchange sdk.ExchangeSDK, request exchange.PriceCheckRequest) (decimal.Decimal, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "HistoricPrice", exchange, request)
-	ret0, _ := ret[0].(decimal.Decimal)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// HistoricPrice indicates an expected call of HistoricPrice.
-func (mr *MockExchangeServiceMockRecorder) HistoricPrice(exchange, request any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HistoricPrice", reflect.TypeOf((*MockExchangeService)(nil).HistoricPrice), exchange, request)
-}
-
-// PriceFor mocks base method.
-func (m *MockExchangeService) PriceFor(exchange sdk.ExchangeSDK, request exchange.PriceCheckRequest) (decimal.Decimal, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PriceFor", exchange, request)
-	ret0, _ := ret[0].(decimal.Decimal)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// PriceFor indicates an expected call of PriceFor.
-func (mr *MockExchangeServiceMockRecorder) PriceFor(exchange, request any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PriceFor", reflect.TypeOf((*MockExchangeService)(nil).PriceFor), exchange, request)
-}
-
-// Sell mocks base method.
-func (m *MockExchangeService) Sell(exchange sdk.ExchangeSDK, request exchange.OrderRequest) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Sell", exchange, request)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// Sell indicates an expected call of Sell.
-func (mr *MockExchangeServiceMockRecorder) Sell(exchange, request any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Sell", reflect.TypeOf((*MockExchangeService)(nil).Sell), exchange, request)
-}
-
 // Update mocks base method.
-func (m *MockExchangeService) Update(id int, exchange model.Exchange) (model.Exchange, error) {
+func (m *MockExchangeService) Update(id int64, exchange model.Exchange) (model.Exchange, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Update", id, exchange)
 	ret0, _ := ret[0].(model.Exchange)

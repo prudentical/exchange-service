@@ -17,18 +17,18 @@ var _ = Describe("Exchange setup", Label("exchange"), func() {
 
 	var setups exchange.ExchangeSetupService
 	var ctrl *gomock.Controller
-	var factory *mock_sdk.MockExchangeSDKFactory
-	var exSDK *mock_sdk.MockExchangeSDK
+	var factory *mock_sdk.MockExchangeAPIClientFactory
+	var exSDK *mock_sdk.MockExchangeAPIClient
 	var currencies *mock_currency.MockCurrencyService
-	var exchanges *mock_exchange.MockExchangeManageService
+	var exchanges *mock_exchange.MockExchangeService
 	var pairs *mock_exchange.MockPairService
 
 	BeforeEach(func() {
 		ctrl = gomock.NewController(GinkgoT())
-		factory = mock_sdk.NewMockExchangeSDKFactory(ctrl)
-		exSDK = mock_sdk.NewMockExchangeSDK(ctrl)
+		factory = mock_sdk.NewMockExchangeAPIClientFactory(ctrl)
+		exSDK = mock_sdk.NewMockExchangeAPIClient(ctrl)
 		currencies = mock_currency.NewMockCurrencyService(ctrl)
-		exchanges = mock_exchange.NewMockExchangeManageService(ctrl)
+		exchanges = mock_exchange.NewMockExchangeService(ctrl)
 		pairs = mock_exchange.NewMockPairService(ctrl)
 		setups = exchange.NewExchangeSetupService(factory, currencies, exchanges, pairs)
 	})

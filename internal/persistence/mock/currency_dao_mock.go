@@ -56,7 +56,7 @@ func (mr *MockCurrencyDAOMockRecorder) Create(currency any) *gomock.Call {
 }
 
 // Delete mocks base method.
-func (m *MockCurrencyDAO) Delete(id int) error {
+func (m *MockCurrencyDAO) Delete(id int64) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Delete", id)
 	ret0, _ := ret[0].(error)
@@ -85,7 +85,7 @@ func (mr *MockCurrencyDAOMockRecorder) FindBy(field, value any) *gomock.Call {
 }
 
 // Get mocks base method.
-func (m *MockCurrencyDAO) Get(id int) (model.Currency, error) {
+func (m *MockCurrencyDAO) Get(id int64) (model.Currency, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Get", id)
 	ret0, _ := ret[0].(model.Currency)

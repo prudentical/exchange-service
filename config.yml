@@ -5,11 +5,11 @@ app:
         max_size: 50
 server:
     host: localhost
-    port: 8001
+    port: 8002
 database:
     name: db
     host: localhost
-    port: 5432
+    port: 5433
     ssl: disable
     user: user
     password: password

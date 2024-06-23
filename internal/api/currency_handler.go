@@ -59,7 +59,7 @@ func (h currencyHandlerImpl) GetAll(c echo.Context) error {
 
 func (h currencyHandlerImpl) GetById(c echo.Context) error {
 	idStr := c.Param(":id")
-	id, err := strconv.Atoi(idStr)
+	id, err := strconv.ParseInt(idStr, 10, 64)
 	if err != nil {
 		return err
 	}
@@ -87,7 +87,7 @@ func (h currencyHandlerImpl) Create(c echo.Context) error {
 
 func (h currencyHandlerImpl) Update(c echo.Context) error {
 	idStr := c.Param("id")
-	id, err := strconv.Atoi(idStr)
+	id, err := strconv.ParseInt(idStr, 10, 64)
 	if err != nil {
 		return err
 	}
@@ -107,7 +107,7 @@ func (h currencyHandlerImpl) Update(c echo.Context) error {
 
 func (h currencyHandlerImpl) Delete(c echo.Context) error {
 	idStr := c.Param("id")
-	id, err := strconv.Atoi(idStr)
+	id, err := strconv.ParseInt(idStr, 10, 64)
 	if err != nil {
 		return err
 	}

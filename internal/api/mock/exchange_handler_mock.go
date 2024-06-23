@@ -39,48 +39,6 @@ func (m *MockExchangeHandler) EXPECT() *MockExchangeHandlerMockRecorder {
 	return m.recorder
 }
 
-// Buy mocks base method.
-func (m *MockExchangeHandler) Buy(c echo.Context) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Buy", c)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// Buy indicates an expected call of Buy.
-func (mr *MockExchangeHandlerMockRecorder) Buy(c any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Buy", reflect.TypeOf((*MockExchangeHandler)(nil).Buy), c)
-}
-
-// Create mocks base method.
-func (m *MockExchangeHandler) Create(c echo.Context) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Create", c)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// Create indicates an expected call of Create.
-func (mr *MockExchangeHandlerMockRecorder) Create(c any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockExchangeHandler)(nil).Create), c)
-}
-
-// Delete mocks base method.
-func (m *MockExchangeHandler) Delete(c echo.Context) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Delete", c)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// Delete indicates an expected call of Delete.
-func (mr *MockExchangeHandlerMockRecorder) Delete(c any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockExchangeHandler)(nil).Delete), c)
-}
-
 // GetAll mocks base method.
 func (m *MockExchangeHandler) GetAll(c echo.Context) error {
 	m.ctrl.T.Helper()
@@ -119,48 +77,6 @@ func (m *MockExchangeHandler) HandleRoutes(e *echo.Echo) {
 func (mr *MockExchangeHandlerMockRecorder) HandleRoutes(e any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HandleRoutes", reflect.TypeOf((*MockExchangeHandler)(nil).HandleRoutes), e)
-}
-
-// HistoricPrice mocks base method.
-func (m *MockExchangeHandler) HistoricPrice(c echo.Context) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "HistoricPrice", c)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// HistoricPrice indicates an expected call of HistoricPrice.
-func (mr *MockExchangeHandlerMockRecorder) HistoricPrice(c any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HistoricPrice", reflect.TypeOf((*MockExchangeHandler)(nil).HistoricPrice), c)
-}
-
-// PriceFor mocks base method.
-func (m *MockExchangeHandler) PriceFor(c echo.Context) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PriceFor", c)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// PriceFor indicates an expected call of PriceFor.
-func (mr *MockExchangeHandlerMockRecorder) PriceFor(c any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PriceFor", reflect.TypeOf((*MockExchangeHandler)(nil).PriceFor), c)
-}
-
-// Sell mocks base method.
-func (m *MockExchangeHandler) Sell(c echo.Context) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Sell", c)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// Sell indicates an expected call of Sell.
-func (mr *MockExchangeHandlerMockRecorder) Sell(c any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Sell", reflect.TypeOf((*MockExchangeHandler)(nil).Sell), c)
 }
 
 // Update mocks base method.

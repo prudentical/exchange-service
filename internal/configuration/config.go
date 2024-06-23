@@ -1,8 +1,7 @@
 package configuration
 
 import (
-	"path"
-	"runtime"
+	"exchange-service/internal/util"
 	"strings"
 
 	"github.com/spf13/viper"
@@ -75,11 +74,9 @@ type Config struct {
 var config *Config
 
 func setup() {
-	_, filename, _, _ := runtime.Caller(0)
-	dir := path.Join(path.Dir(filename), "../..")
 	viper.AutomaticEnv()
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
-	viper.SetConfigFile(dir + "/config.yml")
+	viper.SetConfigFile(util.RootDir() + "/config.yml")
 	err := viper.ReadInConfig()
 	if err != nil {
 		panic(err)

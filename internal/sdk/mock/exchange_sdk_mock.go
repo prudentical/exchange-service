@@ -19,31 +19,31 @@ import (
 	gomock "go.uber.org/mock/gomock"
 )
 
-// MockExchangeSDK is a mock of ExchangeSDK interface.
-type MockExchangeSDK struct {
+// MockExchangeAPIClient is a mock of ExchangeAPIClient interface.
+type MockExchangeAPIClient struct {
 	ctrl     *gomock.Controller
-	recorder *MockExchangeSDKMockRecorder
+	recorder *MockExchangeAPIClientMockRecorder
 }
 
-// MockExchangeSDKMockRecorder is the mock recorder for MockExchangeSDK.
-type MockExchangeSDKMockRecorder struct {
-	mock *MockExchangeSDK
+// MockExchangeAPIClientMockRecorder is the mock recorder for MockExchangeAPIClient.
+type MockExchangeAPIClientMockRecorder struct {
+	mock *MockExchangeAPIClient
 }
 
-// NewMockExchangeSDK creates a new mock instance.
-func NewMockExchangeSDK(ctrl *gomock.Controller) *MockExchangeSDK {
-	mock := &MockExchangeSDK{ctrl: ctrl}
-	mock.recorder = &MockExchangeSDKMockRecorder{mock}
+// NewMockExchangeAPIClient creates a new mock instance.
+func NewMockExchangeAPIClient(ctrl *gomock.Controller) *MockExchangeAPIClient {
+	mock := &MockExchangeAPIClient{ctrl: ctrl}
+	mock.recorder = &MockExchangeAPIClientMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockExchangeSDK) EXPECT() *MockExchangeSDKMockRecorder {
+func (m *MockExchangeAPIClient) EXPECT() *MockExchangeAPIClientMockRecorder {
 	return m.recorder
 }
 
 // Currencies mocks base method.
-func (m *MockExchangeSDK) Currencies() ([]model.Currency, error) {
+func (m *MockExchangeAPIClient) Currencies() ([]model.Currency, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Currencies")
 	ret0, _ := ret[0].([]model.Currency)
@@ -52,13 +52,13 @@ func (m *MockExchangeSDK) Currencies() ([]model.Currency, error) {
 }
 
 // Currencies indicates an expected call of Currencies.
-func (mr *MockExchangeSDKMockRecorder) Currencies() *gomock.Call {
+func (mr *MockExchangeAPIClientMockRecorder) Currencies() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Currencies", reflect.TypeOf((*MockExchangeSDK)(nil).Currencies))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Currencies", reflect.TypeOf((*MockExchangeAPIClient)(nil).Currencies))
 }
 
 // GetExchange mocks base method.
-func (m *MockExchangeSDK) GetExchange() model.Exchange {
+func (m *MockExchangeAPIClient) GetExchange() model.Exchange {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetExchange")
 	ret0, _ := ret[0].(model.Exchange)
@@ -66,13 +66,13 @@ func (m *MockExchangeSDK) GetExchange() model.Exchange {
 }
 
 // GetExchange indicates an expected call of GetExchange.
-func (mr *MockExchangeSDKMockRecorder) GetExchange() *gomock.Call {
+func (mr *MockExchangeAPIClientMockRecorder) GetExchange() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetExchange", reflect.TypeOf((*MockExchangeSDK)(nil).GetExchange))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetExchange", reflect.TypeOf((*MockExchangeAPIClient)(nil).GetExchange))
 }
 
 // HistoricPrice mocks base method.
-func (m *MockExchangeSDK) HistoricPrice(pair model.Pair, time time.Time) (decimal.Decimal, error) {
+func (m *MockExchangeAPIClient) HistoricPrice(pair model.Pair, time time.Time) (decimal.Decimal, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "HistoricPrice", pair, time)
 	ret0, _ := ret[0].(decimal.Decimal)
@@ -81,13 +81,13 @@ func (m *MockExchangeSDK) HistoricPrice(pair model.Pair, time time.Time) (decima
 }
 
 // HistoricPrice indicates an expected call of HistoricPrice.
-func (mr *MockExchangeSDKMockRecorder) HistoricPrice(pair, time any) *gomock.Call {
+func (mr *MockExchangeAPIClientMockRecorder) HistoricPrice(pair, time any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HistoricPrice", reflect.TypeOf((*MockExchangeSDK)(nil).HistoricPrice), pair, time)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HistoricPrice", reflect.TypeOf((*MockExchangeAPIClient)(nil).HistoricPrice), pair, time)
 }
 
 // Pairs mocks base method.
-func (m *MockExchangeSDK) Pairs() ([]model.Pair, error) {
+func (m *MockExchangeAPIClient) Pairs() ([]model.Pair, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Pairs")
 	ret0, _ := ret[0].([]model.Pair)
@@ -96,60 +96,60 @@ func (m *MockExchangeSDK) Pairs() ([]model.Pair, error) {
 }
 
 // Pairs indicates an expected call of Pairs.
-func (mr *MockExchangeSDKMockRecorder) Pairs() *gomock.Call {
+func (mr *MockExchangeAPIClientMockRecorder) Pairs() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Pairs", reflect.TypeOf((*MockExchangeSDK)(nil).Pairs))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Pairs", reflect.TypeOf((*MockExchangeAPIClient)(nil).Pairs))
 }
 
 // PriceFor mocks base method.
-func (m *MockExchangeSDK) PriceFor(pair model.Pair, amount decimal.Decimal, tradeType sdk.TradeType) (decimal.Decimal, error) {
+func (m *MockExchangeAPIClient) PriceFor(pair model.Pair, amount, funds *decimal.Decimal, tradeType sdk.TradeType) (decimal.Decimal, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PriceFor", pair, amount, tradeType)
+	ret := m.ctrl.Call(m, "PriceFor", pair, amount, funds, tradeType)
 	ret0, _ := ret[0].(decimal.Decimal)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // PriceFor indicates an expected call of PriceFor.
-func (mr *MockExchangeSDKMockRecorder) PriceFor(pair, amount, tradeType any) *gomock.Call {
+func (mr *MockExchangeAPIClientMockRecorder) PriceFor(pair, amount, funds, tradeType any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PriceFor", reflect.TypeOf((*MockExchangeSDK)(nil).PriceFor), pair, amount, tradeType)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PriceFor", reflect.TypeOf((*MockExchangeAPIClient)(nil).PriceFor), pair, amount, funds, tradeType)
 }
 
-// MockExchangeSDKFactory is a mock of ExchangeSDKFactory interface.
-type MockExchangeSDKFactory struct {
+// MockExchangeAPIClientFactory is a mock of ExchangeAPIClientFactory interface.
+type MockExchangeAPIClientFactory struct {
 	ctrl     *gomock.Controller
-	recorder *MockExchangeSDKFactoryMockRecorder
+	recorder *MockExchangeAPIClientFactoryMockRecorder
 }
 
-// MockExchangeSDKFactoryMockRecorder is the mock recorder for MockExchangeSDKFactory.
-type MockExchangeSDKFactoryMockRecorder struct {
-	mock *MockExchangeSDKFactory
+// MockExchangeAPIClientFactoryMockRecorder is the mock recorder for MockExchangeAPIClientFactory.
+type MockExchangeAPIClientFactoryMockRecorder struct {
+	mock *MockExchangeAPIClientFactory
 }
 
-// NewMockExchangeSDKFactory creates a new mock instance.
-func NewMockExchangeSDKFactory(ctrl *gomock.Controller) *MockExchangeSDKFactory {
-	mock := &MockExchangeSDKFactory{ctrl: ctrl}
-	mock.recorder = &MockExchangeSDKFactoryMockRecorder{mock}
+// NewMockExchangeAPIClientFactory creates a new mock instance.
+func NewMockExchangeAPIClientFactory(ctrl *gomock.Controller) *MockExchangeAPIClientFactory {
+	mock := &MockExchangeAPIClientFactory{ctrl: ctrl}
+	mock.recorder = &MockExchangeAPIClientFactoryMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockExchangeSDKFactory) EXPECT() *MockExchangeSDKFactoryMockRecorder {
+func (m *MockExchangeAPIClientFactory) EXPECT() *MockExchangeAPIClientFactoryMockRecorder {
 	return m.recorder
 }
 
 // Create mocks base method.
-func (m *MockExchangeSDKFactory) Create(exchange model.Exchange) (sdk.ExchangeSDK, error) {
+func (m *MockExchangeAPIClientFactory) Create(exchange model.Exchange) (sdk.ExchangeAPIClient, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", exchange)
-	ret0, _ := ret[0].(sdk.ExchangeSDK)
+	ret0, _ := ret[0].(sdk.ExchangeAPIClient)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockExchangeSDKFactoryMockRecorder) Create(exchange any) *gomock.Call {
+func (mr *MockExchangeAPIClientFactoryMockRecorder) Create(exchange any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockExchangeSDKFactory)(nil).Create), exchange)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockExchangeAPIClientFactory)(nil).Create), exchange)
 }

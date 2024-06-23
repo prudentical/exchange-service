@@ -56,7 +56,7 @@ func (mr *MockPairDAOMockRecorder) Create(pair any) *gomock.Call {
 }
 
 // Delete mocks base method.
-func (m *MockPairDAO) Delete(id int) error {
+func (m *MockPairDAO) Delete(id int64) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Delete", id)
 	ret0, _ := ret[0].(error)
@@ -85,7 +85,7 @@ func (mr *MockPairDAOMockRecorder) FindBy(field, value any) *gomock.Call {
 }
 
 // Get mocks base method.
-func (m *MockPairDAO) Get(id int) (model.Pair, error) {
+func (m *MockPairDAO) Get(id int64) (model.Pair, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Get", id)
 	ret0, _ := ret[0].(model.Pair)
@@ -100,7 +100,7 @@ func (mr *MockPairDAOMockRecorder) Get(id any) *gomock.Call {
 }
 
 // GetByExchangeId mocks base method.
-func (m *MockPairDAO) GetByExchangeId(exchangeId, page, size int) (persistence.Page[model.Pair], error) {
+func (m *MockPairDAO) GetByExchangeId(exchangeId int64, page, size int) (persistence.Page[model.Pair], error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetByExchangeId", exchangeId, page, size)
 	ret0, _ := ret[0].(persistence.Page[model.Pair])
